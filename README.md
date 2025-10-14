@@ -33,7 +33,7 @@ eco-collect-backend/
  │   │   ├── entity/                          # JPA entities representing database tables
  │   │   └── dto/                             # Data Transfer Objects for requests/responses
  │   │
- │   ├── collector/                           # Collector module (same structure as admin)
+ │   ├── collector/                           # Collector module 
  │   │   ├── controller/
  │   │   ├── service/
  │   │   ├── service/impl/
@@ -49,7 +49,7 @@ eco-collect-backend/
  │   │   ├── entity/
  │   │   └── dto/
  │   │
- │   ├── dispatcher/                              # Driver module
+ │   ├── dispatcher/                              # Dispatcher module
  │   │   ├── controller/
  │   │   ├── service/
  │   │   ├── service/impl/
@@ -65,27 +65,25 @@ eco-collect-backend/
 
 ```
 
-## Frontend (React)
+## Frontend (React + Vite + Tailwind CSS)
 - Path: `eco-collect-frontend/`
-- React 
-- Run with: `npm install && npm start`
+- Run with: `npm install && npm run dev`
   
 ### Folder Structure
 
 ```
 eco-collect-frontend/
- ├── public/
- │   └── index.html
+ ├── index.html            # Vite entry HTML in root
  ├── src/
  │   ├── App.jsx
- │   ├── index.jsx
- │   ├── assets/          # Images, icons, fonts
- │   ├── components/      # Reusable UI components
- │   ├── pages/           # Modules: Admin, Collector, User, Driver
- │   ├── services/        # API calls
- │   ├── context/         # Global state / React Context
- │   ├── utils/           # Helper functions
- │   └── hooks/           # Custom hooks
+ │   ├── main.jsx          # Vite entry JS
+ │   ├── assets/           # Images, icons, fonts
+ │   ├── components/       # Reusable UI components
+ │   ├── pages/            # Modules: Admin, Collector, User, Driver
+ │   ├── services/         # API calls
+ │   ├── context/          # Global state / React Context
+ │   ├── utils/            # Helper functions
+ │   └── hooks/            # Custom hooks
+ ├── vite.config.js        # Vite configuration
  └── package.json
-
 ```
