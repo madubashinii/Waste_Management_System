@@ -15,7 +15,7 @@ Waste_Management_System/
 
 ## Backend (Spring Boot)
 - Path: `eco-collect-backend/`
-- Spring Boot 3.2, Java 21
+- Spring Boot 3.5.6, Java 21
 - Run with: `mvn spring-boot:run`
   
 ### Folder Structure
