@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import CollectorRoutesWrapper from './pages/collector/CollectorRoutesWrapper';
-import './App.css';
+
 
 function App() {
     return (
@@ -15,7 +15,7 @@ function App() {
 
                 <div className="flex-1">
                     <Routes>
-                         Public Pages 
+                         {/*Public Pages */}
                         <Route path="/" element={<Home />} />
                         <Route path="/signup" element={<SignUp />} />
                         <Route path="/signin" element={<SignIn />} />
