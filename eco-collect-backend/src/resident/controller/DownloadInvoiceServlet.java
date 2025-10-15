@@ -1,22 +1,21 @@
-import java.awt.Color;
-import java.io.IOException;
-import java.io.OutputStream;
+package resident.controller;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.Element;
+import com.lowagie.text.*;
 import com.lowagie.text.Font;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
+import java.io.IOException;
+import java.io.OutputStream;
 
-@WebServlet("/DownloadInvoiceServlet")
+
+@WebServlet("/resident.controller.DownloadInvoiceServlet")
 public class DownloadInvoiceServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

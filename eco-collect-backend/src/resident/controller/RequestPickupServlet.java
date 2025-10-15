@@ -1,14 +1,16 @@
+package resident.controller;
 
 import java.io.IOException;
 
-import jakarta.servlet.ServletException;
+import java.io.IOException;
 import jakarta.servlet.annotation.MultipartConfig;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/RequestPickupServlet")
+@WebServlet("/resident.controller.RequestPickupServlet")
 @MultipartConfig
 public class RequestPickupServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -29,7 +31,7 @@ public class RequestPickupServlet extends HttpServlet {
         // Example: create invoice ID
         String invoiceId = "INV" + System.currentTimeMillis();
 
-        // ✅ Save pickup details to DB (optional here)
+
         // yourDatabase.savePickup(userName, address, grandTotal, invoiceId, etc...);
 
         // Send data to invoice.jsp

@@ -1,16 +1,18 @@
+package resident.controller;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-import jakarta.servlet.ServletException;
+import java.io.IOException;
 import jakarta.servlet.annotation.MultipartConfig;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/UploadSlipServlet")
+@WebServlet("/resident.controller.UploadSlipServlet")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 10,              // 10MB
         maxRequestSize = 1024 * 1024 * 50)           // 50MB
