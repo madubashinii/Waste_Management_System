@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-// import Header from './components/Header';
-// import Footer from './components/Footer';
-// import Home from './pages/Home';
-// import SignUp from './pages/SignUp';
-// import SignIn from './pages/SignIn';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Home from './pages/Home';
+import SignUp from './pages/SignUp';
+import SignIn from './pages/SignIn';
 import CollectorRoutesWrapper from './pages/collector/CollectorRoutesWrapper';
 import './App.css';
 
@@ -11,24 +11,24 @@ function App() {
     return (
         <Router>
             <div className="min-h-screen flex flex-col">
-                {/*<Header />*/}
+                <Header />
 
                 <div className="flex-1">
                     <Routes>
-                        {/* Public Pages */}
-                        {/*<Route path="/" element={<Home />} />*/}
-                        {/*<Route path="/signup" element={<SignUp />} />*/}
-                        {/*<Route path="/signin" element={<SignIn />} />*/}
+                         Public Pages 
+                        <Route path="/" element={<Home />} />
+                        <Route path="/signup" element={<SignUp />} />
+                        <Route path="/signin" element={<SignIn />} />
 
                         {/* Collector Pages */}
                         <Route path="/collector/*" element={<CollectorRoutesWrapper />} />
 
                         {/* Redirect unknown paths */}
-                        {/*<Route path="*" element={<Navigate to="/" replace />} />*/}
+                        <Route path="*" element={<Navigate to="/" replace />} />
                     </Routes>
                 </div>
 
-                {/*<Footer />*/}
+                <Footer />
             </div>
         </Router>
     );
