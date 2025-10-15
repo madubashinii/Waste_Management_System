@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Input, Button, UserTypeSelector, AuthLayout } from '../../components/auth/AuthComponents';
+import { signUp } from '../../services/authService';
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -17,9 +19,25 @@ const SignUp = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    try {
+      const payload = {
+        name: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+        password: formData.password,
+        role: formData.userType.charAt(0).toUpperCase() + formData.userType.slice(1).toLowerCase()
+      };
+
+      const response = await signUp(payload);
+      console.log('Signup success:', response.data);
+
+      alert('Account created successfully!');
+      navigate('/signin');
+    } catch (err) {
+      console.error('Signup error:', err.response?.data || err.message);
+      alert('Signup failed. Please try again.');
+    }
   };
 
   return (

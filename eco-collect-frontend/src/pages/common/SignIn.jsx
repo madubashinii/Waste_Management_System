@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Input, Button, UserTypeSelector, AuthLayout } from '../../components/auth/AuthComponents';
+import { signIn } from '../../services/authService';
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -15,13 +16,30 @@ const SignIn = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    
-    // Navigate based on user type
-    if (formData.userType === 'dispatcher') {
-      navigate('/dispatcher/dashboard');
+    try {
+      const payload = {
+        email: formData.email,
+        password: formData.password,
+      };
+
+      const response = await signIn(payload);
+      console.log('Login success:', response.data);
+
+      alert(`Welcome, ${response.data.name}!`);
+
+      // Navigate based on role
+      if (response.data.role === 'Collector') {
+        navigate('/collector/dashboard');
+      } else if (response.data.role === 'Dispatcher') {
+        navigate('/dispatcher/dashboard');
+      } else {
+        navigate('/');
+      }
+    } catch (err) {
+      console.error('Login error:', err.response?.data || err.message);
+      alert('Invalid credentials. Please try again.');
     }
   };
 

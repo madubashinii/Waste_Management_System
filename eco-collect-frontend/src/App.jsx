@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 import Home from './pages/common/Home';
@@ -9,6 +9,7 @@ import DispatcherDashboard from './pages/dispatcher/dispatcherDashboard';
 import RoutePlanner from './pages/dispatcher/routePlanner';
 import RouteStops from './pages/dispatcher/routeStops';
 import CollectorAssignment from './pages/dispatcher/collectorAssignment';
+import CollectorRoutesWrapper from './pages/collector/CollectorRoutesWrapper';
 
 /**
  * Layout wrapper for common pages with Header and Footer
@@ -21,9 +22,6 @@ const CommonLayout = ({ children }) => (
   </>
 );
 
-/**
- * Main App Component
- */
 function App() {
   return (
     <Router>
@@ -39,6 +37,12 @@ function App() {
           <Route path="/dispatcher/route-planner" element={<RoutePlanner />} />
           <Route path="/dispatcher/route-stops" element={<RouteStops />} />
           <Route path="/dispatcher/collector-assignment" element={<CollectorAssignment />} />
+
+          {/* Collector Pages */}
+          <Route path="/collector/*" element={<CollectorRoutesWrapper />} />
+
+          {/* Redirect unknown paths */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
     </Router>
@@ -46,3 +50,7 @@ function App() {
 }
 
 export default App;
+
+
+
+
