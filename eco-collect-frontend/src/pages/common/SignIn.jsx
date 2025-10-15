@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Input, Button, UserTypeSelector, AuthLayout } from '../components/auth/AuthComponents';
+import { Link, useNavigate } from 'react-router-dom';
+import { Input, Button, UserTypeSelector, AuthLayout } from '../../components/auth/AuthComponents';
 
 const SignIn = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -17,6 +18,11 @@ const SignIn = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
+    
+    // Navigate based on user type
+    if (formData.userType === 'dispatcher') {
+      navigate('/dispatcher/dashboard');
+    }
   };
 
   return (
@@ -94,3 +100,4 @@ const SignIn = () => {
 };
 
 export default SignIn;
+

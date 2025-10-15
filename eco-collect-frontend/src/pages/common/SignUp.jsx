@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Input, Button, UserTypeSelector, AuthLayout } from '../components/auth/AuthComponents';
+import { Input, Button, UserTypeSelector, AuthLayout } from '../../components/auth/AuthComponents';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -103,3 +103,4 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
