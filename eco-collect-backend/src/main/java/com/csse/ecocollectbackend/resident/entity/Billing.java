@@ -1,0 +1,80 @@
+package com.csse.ecocollectbackend.resident.entity;
+
+import com.csse.ecocollectbackend.login.entity.User;
+import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "billing")
+public class Billing {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "invoice_id")
+    private Integer invoiceId;
+
+    @ManyToOne
+    @JoinColumn(name = "resident_id")
+    private User resident;  // references login.User entity
+
+    @Column(name = "resident_name")
+    private String residentName;
+
+    @Column(nullable = false)
+    private BigDecimal amount;
+
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.draft;
+
+    @Column(name = "due_date")
+    private LocalDate dueDate;
+
+    @Column(name = "billing_period_start")
+    private LocalDate billingPeriodStart;
+
+    @Column(name = "billing_period_end")
+    private LocalDate billingPeriodEnd;
+
+    @Column(name = "created_at", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    private LocalDateTime updatedAt;
+
+    public enum Status {
+        draft, approved, sent, paid, unpaid, overdue
+    }
+
+    // Getters and setters
+    public Integer getInvoiceId() { return invoiceId; }
+    public void setInvoiceId(Integer invoiceId) { this.invoiceId = invoiceId; }
+
+    public User getResident() { return resident; }
+    public void setResident(User resident) { this.resident = resident; }
+
+    public String getResidentName() { return residentName; }
+    public void setResidentName(String residentName) { this.residentName = residentName; }
+
+    public BigDecimal getAmount() { return amount; }
+    public void setAmount(BigDecimal amount) { this.amount = amount; }
+
+    public Status getStatus() { return status; }
+    public void setStatus(Status status) { this.status = status; }
+
+    public LocalDate getDueDate() { return dueDate; }
+    public void setDueDate(LocalDate dueDate) { this.dueDate = dueDate; }
+
+    public LocalDate getBillingPeriodStart() { return billingPeriodStart; }
+    public void setBillingPeriodStart(LocalDate billingPeriodStart) { this.billingPeriodStart = billingPeriodStart; }
+
+    public LocalDate getBillingPeriodEnd() { return billingPeriodEnd; }
+    public void setBillingPeriodEnd(LocalDate billingPeriodEnd) { this.billingPeriodEnd = billingPeriodEnd; }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+}

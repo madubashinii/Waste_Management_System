@@ -1,4 +1,4 @@
-package resident.controller;
+package com.csse.ecocollectbackend.resident.controller;
 
 import java.io.IOException;
 

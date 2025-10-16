@@ -1,6 +1,13 @@
-package resident.controller;
+package com.csse.ecocollectbackend.resident.controller;
 
-import resident.entity.DBUtil;
+import com.csse.ecocollectbackend.resident.entity.DBUtil;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.Connection;
 
 @WebServlet("/saveBilling")
 public class SaveBillingServlet extends HttpServlet {

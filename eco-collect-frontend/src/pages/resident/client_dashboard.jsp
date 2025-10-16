@@ -83,8 +83,7 @@
             <i class="fa-solid fa-user"></i>
         </div>
         <div class="profile-details">
-            <h5><%= request.getAttribute("userName") != null ? request.getAttribute("userName") : "John Doe" %></h5>
-            <small><%= request.getAttribute("userEmail") != null ? request.getAttribute("userEmail") : "john@example.com" %></small>
+            <h5><%= request.getAttribute("userName") != null ? request.getAttribute("userName") : "User" %></h5>
         </div>
         <div class="icon-buttons">
             <i class="fa-solid fa-trash-can"></i>

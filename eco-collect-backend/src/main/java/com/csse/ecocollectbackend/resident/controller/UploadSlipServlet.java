@@ -1,4 +1,4 @@
-package resident.controller;
+package com.csse.ecocollectbackend.resident.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 @WebServlet("/resident.controller.UploadSlipServlet")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
@@ -32,7 +33,7 @@ public class UploadSlipServlet extends HttpServlet {
         String filePath = uploadPath + File.separator + invoiceId + "_" + fileName;
         filePart.write(filePath);
 
-        // ✅ Update your DB here: mark payment status = "Pending Verification"
+        // Update your DB here: mark payment status = "Pending Verification"
         // yourDatabase.saveSlip(invoiceId, filePath, "Pending Verification");
 
         request.setAttribute("message", "Slip uploaded successfully! Your payment is pending verification.");

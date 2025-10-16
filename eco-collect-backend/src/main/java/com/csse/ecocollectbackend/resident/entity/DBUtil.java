@@ -1,4 +1,4 @@
-package resident.entity;
+package com.csse.ecocollectbackend.resident.entity;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
