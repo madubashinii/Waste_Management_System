@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import DispatcherSidebar from '../../components/dispatcher/DispatcherSidebar';
 import TruckManagementModal from '../../components/dispatcher/TruckManagementModal';
 import PublishedRoutesCard from '../../components/dispatcher/PublishedRoutesCard';
 import AssignCollectorTruckModal from '../../components/dispatcher/AssignCollectorTruckModal';
@@ -295,10 +294,7 @@ const CollectorAssignment = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <DispatcherSidebar />
-      
-      <div className="lg:pl-72">
+    <>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 lg:pt-8 pb-8">
           {/* Header */}
           <div className="mb-8">
@@ -355,7 +351,6 @@ const CollectorAssignment = () => {
             filters={filters}
           />
         </div>
-      </div>
 
       {/* Assignment Modal */}
       <AssignCollectorTruckModal
@@ -373,7 +368,7 @@ const CollectorAssignment = () => {
         isOpen={isTruckModalOpen}
         onClose={() => setIsTruckModalOpen(false)}
       />
-    </div>
+    </>
   );
 };
 

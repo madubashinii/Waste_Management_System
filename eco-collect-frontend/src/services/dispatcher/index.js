@@ -11,6 +11,7 @@
  * - routeService: Core route operations
  * - routeWardService: Core route-ward operations
  * - routeStopService: Core route-stop operations
+ * - followupService: Core followup pickup operations
  * - zoneWardService: Orchestrated zone-ward operations
  */
 
@@ -21,12 +22,14 @@ import { wardService } from './wardService.js';
 import { routeService } from './routeService.js';
 import { routeWardService } from './routeWardService.js';
 import { routeStopService } from './routeStopService.js';
+import { followupService } from './followupService.js';
+import { reportsService } from './reportsService.js';
 
 // Orchestration services
 import { zoneWardService } from './zoneWardService.js';
 
 // Re-export services
-export { zoneService, truckService, wardService, routeService, routeWardService, routeStopService, zoneWardService };
+export { zoneService, truckService, wardService, routeService, routeWardService, routeStopService, followupService, reportsService, zoneWardService };
 
 /**
  * Service factory for dependency injection
@@ -40,6 +43,8 @@ export class DispatcherServiceFactory {
     this.routeService = dependencies.routeService || routeService;
     this.routeWardService = dependencies.routeWardService || routeWardService;
     this.routeStopService = dependencies.routeStopService || routeStopService;
+    this.followupService = dependencies.followupService || followupService;
+    this.reportsService = dependencies.reportsService || reportsService;
     this.zoneWardService = dependencies.zoneWardService || zoneWardService;
   }
 
@@ -55,6 +60,8 @@ export class DispatcherServiceFactory {
       routeService: this.routeService,
       routeWardService: this.routeWardService,
       routeStopService: this.routeStopService,
+      followupService: this.followupService,
+      reportsService: this.reportsService,
       zoneWardService: this.zoneWardService
     };
   }
@@ -100,6 +107,18 @@ export class DispatcherServiceFactory {
       results.routeStopService = await this.routeStopService.checkBackendConnection?.() || { connected: false };
     } catch {
       results.routeStopService = { connected: false };
+    }
+
+    try {
+      results.followupService = await this.followupService.checkBackendConnection?.() || { connected: false };
+    } catch {
+      results.followupService = { connected: false };
+    }
+
+    try {
+      results.reportsService = await this.reportsService.checkBackendConnection?.() || { connected: false };
+    } catch {
+      results.reportsService = { connected: false };
     }
 
     results.zoneWardService = { connected: true }; // This service orchestrates others

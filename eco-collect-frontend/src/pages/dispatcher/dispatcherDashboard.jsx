@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import DispatcherSidebar from '../../components/dispatcher/DispatcherSidebar';
+import { useState, useEffect } from 'react';
 import {
   HiOutlineTruck,
   HiOutlineCheckCircle,
@@ -13,6 +12,8 @@ import {
   HiOutlineMap,
   HiOutlineEye,
 } from 'react-icons/hi';
+import { routeService, truckService, followupService } from '../../services/dispatcher';
+import userService from '../../services/userService';
 
 // Constants
 const ALERT_COLORS = {
@@ -37,18 +38,16 @@ const PROGRESS_COLORS = [
 ];
 
 const SUMMARY_WIDGETS = [
-  { key: 'totalRoutes', label: 'Total Routes', icon: HiOutlineLocationMarker, color: 'emerald', subKey: 'activeRoutes', subLabel: 'active', subIcon: HiOutlineTruck },
-  { key: 'completionRate', label: 'Completion Rate', icon: HiOutlineChartBar, color: 'blue', suffix: '%', subKey: 'completedToday', subLabel: 'completed today', subIcon: HiOutlineCheckCircle },
-  { key: 'activeAlerts', label: 'Active Alerts', icon: HiOutlineBell, color: 'red', subLabel: 'Requires attention', subIcon: HiOutlineExclamationCircle },
-  { key: 'pendingCollections', label: 'Pending Collections', icon: HiOutlineClock, color: 'amber', subLabel: 'Awaiting dispatch', subIcon: HiOutlineClock },
+  { key: 'totalRoutes', label: 'Total Routes', icon: HiOutlineLocationMarker, color: 'emerald', subKey: 'activeRoutes', subLabel: 'active today', subIcon: HiOutlineTruck },
+  { key: 'totalCollectors', label: 'Available Collectors', icon: HiOutlineUserGroup, color: 'blue', subKey: 'assignedCollectors', subLabel: 'assigned', subIcon: HiOutlineCheckCircle },
+  { key: 'totalTrucks', label: 'Available Trucks', icon: HiOutlineTruck, color: 'purple', subKey: 'assignedTrucks', subLabel: 'assigned', subIcon: HiOutlineCheckCircle },
+  { key: 'pendingFollowups', label: 'Pending Followups', icon: HiOutlineBell, color: 'red', subKey: 'overdueFollowups', subLabel: 'overdue', subIcon: HiOutlineExclamationCircle },
 ];
 
 const QUICK_ACTIONS = [
   { path: '/dispatcher/route-planner', label: 'Route Planner', description: 'Generate routes', icon: HiOutlineLocationMarker, color: 'emerald' },
-  { path: '/dispatcher/live-monitor', label: 'Live Monitor', description: 'Track in real-time', icon: HiOutlineEye, color: 'blue' },
-  { path: '/dispatcher/schedules', label: 'Schedules', description: 'Recurring rules', icon: HiOutlineCalendar, color: 'purple' },
-  { path: '/dispatcher/alerts', label: 'Alerts', description: 'View notifications', icon: HiOutlineBell, color: 'rose' },
-  { path: '/dispatcher/reports', label: 'Reports', description: 'Analytics', icon: HiOutlineChartBar, color: 'indigo' },
+  { path: '/dispatcher/route-stops', label: 'Route Stops', description: 'Manage stops', icon: HiOutlineMap, color: 'blue' },
+  { path: '/dispatcher/followup-management', label: 'Followups', description: 'Handle missed pickups', icon: HiOutlineBell, color: 'rose' },
 ];
 
 // Helper functions
@@ -60,6 +59,8 @@ const widgetColorClasses = {
   blue: { border: 'border-blue-600', text: 'text-blue-600', bg: 'bg-blue-100' },
   red: { border: 'border-red-600', text: 'text-red-600', bg: 'bg-red-100' },
   amber: { border: 'border-amber-600', text: 'text-amber-600', bg: 'bg-amber-100' },
+  green: { border: 'border-green-600', text: 'text-green-600', bg: 'bg-green-100' },
+  purple: { border: 'border-purple-600', text: 'text-purple-600', bg: 'bg-purple-100' },
 };
 
 const actionColorClasses = {
@@ -114,140 +115,270 @@ const QuickActionButton = ({ action }) => {
   );
 };
 
-const RouteCard = ({ route }) => (
-  <div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-200">
-    <div className="flex items-start justify-between mb-3">
-      <div className="flex-1">
-        <div className="flex items-center gap-3 mb-2">
-          <h3 className="text-lg font-semibold text-gray-900">{route.name}</h3>
-          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getColorClass(route.status, STATUS_COLORS)}`}>
-            {route.status.toUpperCase()}
-          </span>
+const RouteCard = ({ route, collectors = [] }) => {
+  const progress = route.completionPercentage || 0;
+  
+  // Find collector name by ID
+  const getCollectorName = (collectorId) => {
+    if (!collectorId) return 'Unassigned';
+    const collector = collectors.find(c => c.userId === collectorId || c.id === collectorId);
+    return collector ? `${collector.firstName} ${collector.lastName}` : `Collector #${collectorId}`;
+  };
+  
+  return (
+    <div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-200">
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex-1">
+          <div className="flex items-center gap-3 mb-2">
+            <h3 className="text-lg font-semibold text-gray-900">{route.routeName || 'Unnamed Route'}</h3>
+            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getColorClass(route.status?.toLowerCase(), STATUS_COLORS)}`}>
+              {route.status?.toUpperCase() || 'UNKNOWN'}
+            </span>
+          </div>
+          <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+            <span className="flex items-center"><HiOutlineTruck className="mr-1" />Truck ID: {route.assignedTruckId || 'N/A'}</span>
+            <span className="flex items-center"><HiOutlineUserGroup className="mr-1" />Collector: {getCollectorName(route.assignedCollectorId)}</span>
+            <span className="flex items-center"><HiOutlineMap className="mr-1" />Zone: {route.zoneId || 'N/A'}</span>
+          </div>
         </div>
-        <div className="flex flex-wrap gap-4 text-sm text-gray-600">
-          <span className="flex items-center"><HiOutlineTruck className="mr-1" />{route.vehicle}</span>
-          <span className="flex items-center"><HiOutlineUserGroup className="mr-1" />{route.collector}</span>
-          <span className="flex items-center"><HiOutlineMap className="mr-1" />{route.completedStops}/{route.totalStops} stops</span>
+        <span className="text-2xl font-bold text-gray-900">{progress}%</span>
+      </div>
+      <div className="w-full bg-gray-200 rounded-full h-2.5">
+        <div 
+          className={`h-2.5 rounded-full transition-all duration-300 ${getProgressColor(progress)}`}
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+    </div>
+  );
+};
+
+const FollowupCard = ({ followup }) => {
+  const getPriorityColor = (priority) => {
+    switch (priority?.toUpperCase()) {
+      case 'HIGH': return 'bg-red-100 border-red-200 text-red-800';
+      case 'NORMAL': return 'bg-amber-100 border-amber-200 text-amber-800';
+      case 'LOW': return 'bg-blue-100 border-blue-200 text-blue-800';
+      default: return 'bg-gray-100 border-gray-200 text-gray-800';
+    }
+  };
+
+  return (
+    <div className={`border rounded-lg p-4 ${getPriorityColor(followup.priority)} hover:shadow-md transition-shadow duration-200`}>
+      <div className="flex items-start mb-2">
+        <HiOutlineExclamationCircle className="text-lg mr-2 flex-shrink-0 mt-0.5" />
+        <div className="flex-1">
+          <p className="text-sm font-medium">Followup Pickup #{followup.id}</p>
+          <p className="text-xs mt-1">Reason: {followup.reasonCode || 'N/A'}</p>
         </div>
       </div>
-      <span className="text-2xl font-bold text-gray-900">{route.progress}%</span>
+      <div className="flex justify-between items-center text-xs ml-6">
+        <span className="flex items-center"><HiOutlineMap className="mr-1" />Ward: {followup.wardId || 'N/A'}</span>
+        <span className="flex items-center"><HiOutlineClock className="mr-1" />Priority: {followup.priority || 'NORMAL'}</span>
+      </div>
     </div>
-    <div className="w-full bg-gray-200 rounded-full h-2.5">
-      <div 
-        className={`h-2.5 rounded-full transition-all duration-300 ${getProgressColor(route.progress)}`}
-        style={{ width: `${route.progress}%` }}
-      />
-    </div>
-  </div>
-);
-
-const AlertCard = ({ alert }) => (
-  <div className={`border rounded-lg p-4 ${getColorClass(alert.type, ALERT_COLORS)} hover:shadow-md transition-shadow duration-200`}>
-    <div className="flex items-start mb-2">
-      <HiOutlineExclamationCircle className="text-lg mr-2 flex-shrink-0 mt-0.5" />
-      <p className="text-sm font-medium flex-1">{alert.message}</p>
-    </div>
-    <div className="flex justify-between items-center text-xs ml-6">
-      <span className="flex items-center"><HiOutlineMap className="mr-1" />{alert.location}</span>
-      <span className="flex items-center"><HiOutlineClock className="mr-1" />{alert.time}</span>
-    </div>
-  </div>
-);
-
-// Mock data
-const mockData = {
-  summary: { totalRoutes: 32, activeRoutes: 14, completionRate: 72, activeAlerts: 4, completedToday: 52, pendingCollections: 6 },
-  alerts: [
-    { id: 1, type: 'urgent', message: 'Route CMB-15: Vehicle breakdown reported', time: '5 min ago', location: 'Colombo 07' },
-    { id: 2, type: 'warning', message: 'Route NEG-08: Behind schedule by 30 minutes', time: '15 min ago', location: 'Negombo' },
-    { id: 3, type: 'info', message: 'Route KDY-03: Completed ahead of schedule', time: '28 min ago', location: 'Kandy' },
-    { id: 4, type: 'warning', message: 'Heavy traffic reported on Galle Road', time: '45 min ago', location: 'Colombo 03' },
-  ],
-  todayRoutes: [
-    { id: 'CMB-001', name: 'Colombo Fort Circuit', status: 'completed', progress: 100, collector: 'Nimal Perera', vehicle: 'WM-101', completedStops: 18, totalStops: 18 },
-    { id: 'CMB-007', name: 'Cinnamon Gardens Loop', status: 'active', progress: 75, collector: 'Kumari Silva', vehicle: 'WM-207', completedStops: 15, totalStops: 20 },
-    { id: 'NEG-012', name: 'Negombo Town Route', status: 'active', progress: 52, collector: 'Kamal Fernando', vehicle: 'WM-312', completedStops: 13, totalStops: 25 },
-    { id: 'KDY-008', name: 'Kandy City Center', status: 'active', progress: 38, collector: 'Sunil Bandara', vehicle: 'WM-408', completedStops: 8, totalStops: 21 },
-    { id: 'GAL-015', name: 'Galle Fort Area', status: 'pending', progress: 0, collector: 'Ranjith Mendis', vehicle: 'WM-515', completedStops: 0, totalStops: 16 },
-    { id: 'CMB-023', name: 'Dehiwala - Mt. Lavinia', status: 'delayed', progress: 28, collector: 'Sanduni Jayasinghe', vehicle: 'WM-623', completedStops: 5, totalStops: 18 },
-  ],
+  );
 };
 
 const DispatcherDashboard = () => {
-  const [dashboardData] = useState(mockData);
+  const [dashboardData, setDashboardData] = useState({
+    summary: { totalRoutes: 0, activeRoutes: 0, totalCollectors: 0, assignedCollectors: 0, totalTrucks: 0, assignedTrucks: 0, pendingFollowups: 0, overdueFollowups: 0, completedRoutes: 0, inProgressRoutes: 0 },
+    todayRoutes: [],
+    followups: [],
+    collectors: [],
+    loading: true,
+    error: null
+  });
+
+  useEffect(() => {
+    const loadDashboardData = async () => {
+      try {
+        setDashboardData(prev => ({ ...prev, loading: true, error: null }));
+
+        // Load all data in parallel
+        const [routesResponse, trucksResponse, collectorsResponse, followupsResponse, todayRoutesResponse] = await Promise.all([
+          routeService.getAllRoutes().catch((error) => {
+            console.error('Error fetching routes:', error);
+            return { success: false, data: [] };
+          }),
+          truckService.getAllTrucks().catch((error) => {
+            console.error('Error fetching trucks:', error);
+            return { success: false, data: [] };
+          }),
+          userService.getCollectors().catch((error) => {
+            console.error('Error fetching collectors:', error);
+            return [];
+          }),
+          followupService.getPendingFollowups().catch((error) => {
+            console.error('Error fetching followups:', error);
+            return { success: false, data: [] };
+          }),
+          routeService.getRoutesForToday().catch((error) => {
+            console.error('Error fetching today routes:', error);
+            return { success: false, data: [] };
+          })
+        ]);
+
+        const routes = routesResponse.success ? routesResponse.data : [];
+        const trucks = trucksResponse.success ? trucksResponse.data : [];
+        const collectors = Array.isArray(collectorsResponse) ? collectorsResponse : [];
+        const followups = followupsResponse.success ? followupsResponse.data : [];
+        const todayRoutes = todayRoutesResponse.success ? todayRoutesResponse.data : [];
+
+        // Debug logging
+        console.log('Collectors response:', collectorsResponse);
+        console.log('Collectors array:', collectors);
+        console.log('Routes with collector assignments:', routes.map(r => ({ id: r.routeId, collectorId: r.assignedCollectorId })));
+
+        // Get overdue followups
+        const overdueResponse = await followupService.getOverdueFollowups().catch(() => ({ success: false, data: [] }));
+        const overdueFollowups = overdueResponse.success ? overdueResponse.data : [];
+
+        // Calculate summary statistics
+        const activeRoutes = routes.filter(route => route.status === 'IN_PROGRESS').length;
+        const completedRoutes = routes.filter(route => route.status === 'COMPLETED').length;
+        const inProgressRoutes = routes.filter(route => route.status === 'IN_PROGRESS').length;
+        
+        // Calculate assigned collectors (collectors who are assigned to routes)
+        const assignedCollectorIds = new Set(routes.map(route => route.assignedCollectorId).filter(id => id));
+        const assignedCollectors = assignedCollectorIds.size;
+
+        setDashboardData({
+          summary: {
+            totalRoutes: routes.length,
+            activeRoutes,
+            totalCollectors: collectors.length,
+            assignedCollectors,
+            totalTrucks: trucks.length,
+            assignedTrucks: trucks.filter(truck => truck.isAssigned).length,
+            pendingFollowups: followups.length,
+            overdueFollowups: overdueFollowups.length,
+            completedRoutes,
+            inProgressRoutes
+          },
+          todayRoutes,
+          followups: followups.slice(0, 5), // Show only first 5 followups
+          collectors,
+          loading: false,
+          error: null
+        });
+
+      } catch (error) {
+        console.error('Error loading dashboard data:', error);
+        setDashboardData(prev => ({
+          ...prev,
+          loading: false,
+          error: error.message || 'Failed to load dashboard data'
+        }));
+      }
+    };
+
+    loadDashboardData();
+  }, []);
+
+  if (dashboardData.loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading dashboard data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (dashboardData.error) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <HiOutlineExclamationCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
+          <p className="text-red-600 mb-2">Error loading dashboard</p>
+          <p className="text-gray-600 text-sm">{dashboardData.error}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <DispatcherSidebar />
-      
-      <div className="lg:pl-72">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 lg:pt-8 pb-8">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">Dispatcher Dashboard</h1>
-            <p className="mt-2 text-gray-600">Monitor and manage waste collection operations across Sri Lanka</p>
-          </div>
+    <>
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900">Dispatcher Dashboard</h1>
+        <p className="mt-2 text-gray-600">Monitor and manage waste collection operations across Sri Lanka</p>
+      </div>
 
-          {/* Summary Widgets */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {SUMMARY_WIDGETS.map(widget => (
-              <SummaryWidget key={widget.key} data={dashboardData.summary} widget={widget} />
-            ))}
-          </div>
+      {/* Summary Widgets */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {SUMMARY_WIDGETS.map(widget => (
+          <SummaryWidget key={widget.key} data={dashboardData.summary} widget={widget} />
+        ))}
+      </div>
 
-          {/* Quick Actions */}
-          <div className="mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              {QUICK_ACTIONS.map(action => (
-                <QuickActionButton key={action.path} action={action} />
-              ))}
+      {/* Quick Actions */}
+      <div className="mb-8">
+        <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {QUICK_ACTIONS.map(action => (
+            <QuickActionButton key={action.path} action={action} />
+          ))}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Today's Routes */}
+        <div className="lg:col-span-2">
+          <div className="bg-white rounded-lg shadow-md">
+            <div className="px-6 py-4 border-b border-gray-200">
+              <h2 className="text-xl font-bold text-gray-900">Today's Routes</h2>
+              <p className="text-sm text-gray-600 mt-1">Monitor active collection routes</p>
+            </div>
+            <div className="p-6">
+                  {dashboardData.todayRoutes.length > 0 ? (
+                    <div className="space-y-4">
+                      {dashboardData.todayRoutes.map(route => (
+                        <RouteCard key={route.routeId} route={route} collectors={dashboardData.collectors} />
+                      ))}
+                    </div>
+              ) : (
+                <div className="text-center py-8">
+                  <HiOutlineLocationMarker className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                  <p className="text-gray-600">No routes scheduled for today</p>
+                </div>
+              )}
             </div>
           </div>
+        </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Today's Routes */}
-            <div className="lg:col-span-2">
-              <div className="bg-white rounded-lg shadow-md">
-                <div className="px-6 py-4 border-b border-gray-200">
-                  <h2 className="text-xl font-bold text-gray-900">Today's Routes</h2>
-                  <p className="text-sm text-gray-600 mt-1">Monitor active collection routes</p>
-                </div>
-                <div className="p-6">
-                  <div className="space-y-4">
-                    {dashboardData.todayRoutes.map(route => (
-                      <RouteCard key={route.routeId} route={route} />
-                    ))}
-                  </div>
-                </div>
-              </div>
+        {/* Recent Followups */}
+        <div className="lg:col-span-1">
+          <div className="bg-white rounded-lg shadow-md">
+            <div className="px-6 py-4 border-b border-gray-200">
+              <h2 className="text-xl font-bold text-gray-900">Recent Followups</h2>
+              <p className="text-sm text-gray-600 mt-1">Pending pickup requests</p>
             </div>
-
-            {/* Recent Alerts */}
-            <div className="lg:col-span-1">
-              <div className="bg-white rounded-lg shadow-md">
-                <div className="px-6 py-4 border-b border-gray-200">
-                  <h2 className="text-xl font-bold text-gray-900">Recent Alerts</h2>
-                  <p className="text-sm text-gray-600 mt-1">Latest notifications</p>
+            <div className="p-4">
+              {dashboardData.followups.length > 0 ? (
+                <div className="space-y-3 max-h-[600px] overflow-y-auto">
+                  {dashboardData.followups.map(followup => (
+                    <FollowupCard key={followup.id} followup={followup} />
+                  ))}
                 </div>
-                <div className="p-4">
-                  <div className="space-y-3 max-h-[600px] overflow-y-auto">
-                    {dashboardData.alerts.map(alert => (
-                      <AlertCard key={alert.id} alert={alert} />
-                    ))}
-                  </div>
+              ) : (
+                <div className="text-center py-8">
+                  <HiOutlineCheckCircle className="h-12 w-12 text-green-400 mx-auto mb-4" />
+                  <p className="text-gray-600">No pending followups</p>
                 </div>
-                <div className="px-6 py-3 border-t border-gray-200">
-                  <button className="w-full text-center text-emerald-600 hover:text-emerald-700 font-medium text-sm">
-                    View All Alerts
-                  </button>
-                </div>
-              </div>
+              )}
+            </div>
+            <div className="px-6 py-3 border-t border-gray-200">
+              <a href="/dispatcher/followup-management" className="w-full text-center text-emerald-600 hover:text-emerald-700 font-medium text-sm block">
+                View All Followups
+              </a>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

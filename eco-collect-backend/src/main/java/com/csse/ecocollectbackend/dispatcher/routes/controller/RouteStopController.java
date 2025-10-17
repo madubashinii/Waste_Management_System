@@ -4,6 +4,8 @@ import com.csse.ecocollectbackend.dispatcher.common.dto.ApiResponse;
 import com.csse.ecocollectbackend.dispatcher.routes.dto.RouteStopResponse;
 import com.csse.ecocollectbackend.dispatcher.routes.entity.RouteStop;
 import com.csse.ecocollectbackend.dispatcher.routes.service.RouteStopService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,13 +17,11 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/route-stops")
 @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"})
+@RequiredArgsConstructor
+@Slf4j
 public class RouteStopController {
     
     private final RouteStopService routeStopService;
-    
-    public RouteStopController(RouteStopService routeStopService) {
-        this.routeStopService = routeStopService;
-    }
     
     // Helper method to convert RouteStop entity to RouteStopResponse DTO
     private RouteStopResponse convertToResponse(RouteStop routeStop) {
@@ -208,6 +208,17 @@ public class RouteStopController {
         }
     }
     
+    @PutMapping("/{stopId}/status-with-followup")
+    public ResponseEntity<ApiResponse<RouteStop>> updateRouteStopStatusWithFollowup(
+            @PathVariable Integer stopId, @RequestParam RouteStop.StopStatus status) {
+        try {
+            RouteStop updatedRouteStop = routeStopService.updateRouteStopStatusWithFollowup(stopId, status);
+            return ResponseEntity.ok(new ApiResponse<>(true, "Route stop status updated successfully with followup handling", updatedRouteStop));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, "Error updating route stop status with followup: " + e.getMessage(), null));
+        }
+    }
+    
     @PutMapping("/{stopId}/collected")
     public ResponseEntity<ApiResponse<RouteStop>> updateRouteStopCollected(
             @PathVariable Integer stopId, @RequestParam Boolean collected) {
@@ -292,6 +303,80 @@ public class RouteStopController {
             return ResponseEntity.ok(new ApiResponse<>(true, "Route stop deleted successfully", null));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new ApiResponse<>(false, "Error deleting route stop: " + e.getMessage(), null));
+        }
+    }
+    
+    @PostMapping("/update-planned-eta")
+    public ResponseEntity<ApiResponse<Integer>> updateAllRouteStopsPlannedEta() {
+        try {
+            int updatedCount = routeStopService.updateAllRouteStopsPlannedEta();
+            return ResponseEntity.ok(new ApiResponse<>(true, 
+                "Updated " + updatedCount + " route stops with correct planned_eta values", 
+                updatedCount));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, 
+                "Error updating route stops planned_eta: " + e.getMessage(), null));
+        }
+    }
+    
+    /**
+     * Handle collector reports for route stops (replaces the commented out collector endpoints)
+     * This endpoint allows collectors to report issues with route stops
+     */
+    @PostMapping("/report-issue")
+    public ResponseEntity<ApiResponse<RouteStop>> reportRouteStopIssue(
+            @RequestParam Integer routeId,
+            @RequestParam String binId,
+            @RequestParam Integer collectorId,
+            @RequestParam String status,
+            @RequestParam(required = false) String remarks) {
+        try {
+            log.info("Received report-issue request: routeId={}, binId={}, collectorId={}, status={}, remarks={}", 
+                     routeId, binId, collectorId, status, remarks);
+            
+            // Find the route stop by route ID and bin ID
+            Optional<RouteStop> routeStopOpt = routeStopService.getRouteStopByRouteIdAndBinId(routeId, binId);
+            
+            if (routeStopOpt.isEmpty()) {
+                log.warn("Route stop not found for routeId={}, binId={}", routeId, binId);
+                return ResponseEntity.notFound().build();
+            }
+            
+            RouteStop routeStop = routeStopOpt.get();
+            log.info("Found route stop ID: {} with current status: {}", routeStop.getStopId(), routeStop.getStatus());
+            
+            // Update the route stop status based on the report
+            RouteStop.StopStatus newStatus;
+            switch (status.toUpperCase()) {
+                case "MISSED":
+                    newStatus = RouteStop.StopStatus.MISSED;
+                    break;
+                case "SKIPPED":
+                    newStatus = RouteStop.StopStatus.SKIPPED;
+                    break;
+                case "OVERFLOW":
+                    newStatus = RouteStop.StopStatus.SKIPPED; // Treat overflow as skipped for now
+                    break;
+                default:
+                    newStatus = RouteStop.StopStatus.SKIPPED;
+            }
+            
+            log.info("Updating route stop ID: {} status from {} to {}", 
+                     routeStop.getStopId(), routeStop.getStatus(), newStatus);
+            
+            // Use the followup-enabled status update method
+            RouteStop updatedRouteStop = routeStopService.updateRouteStopStatusWithFollowup(routeStop.getStopId(), newStatus);
+            
+            // Update notes if provided
+            if (remarks != null && !remarks.trim().isEmpty()) {
+                updatedRouteStop = routeStopService.updateRouteStopNotes(routeStop.getStopId(), remarks);
+            }
+            
+            log.info("Successfully processed report-issue for route stop ID: {}", routeStop.getStopId());
+            return ResponseEntity.ok(new ApiResponse<>(true, "Route stop issue reported successfully", updatedRouteStop));
+        } catch (Exception e) {
+            log.error("Error processing report-issue request: {}", e.getMessage(), e);
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, "Error reporting route stop issue: " + e.getMessage(), null));
         }
     }
 }

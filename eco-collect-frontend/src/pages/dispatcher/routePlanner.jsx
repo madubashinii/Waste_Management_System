@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import DispatcherSidebar from '../../components/dispatcher/DispatcherSidebar';
 import AddZoneModal from '../../components/dispatcher/routePlanner/AddZoneModal';
 import AddWardsModal from '../../components/dispatcher/routePlanner/AddWardsModal';
 import SnackBar from '../../components/common/SnackBar';
@@ -214,10 +213,7 @@ const RoutePlanner = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <DispatcherSidebar />
-      <div className="lg:pl-72">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 lg:pt-8 pb-8">
+    <>
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center justify-between">
@@ -277,7 +273,6 @@ const RoutePlanner = () => {
               onSave={handleSaveRouteClick}
             />
           </div>
-        </div>
 
         {/* Routes Table */}
         <RoutesTable
@@ -288,7 +283,6 @@ const RoutePlanner = () => {
           onEditRoute={handleEditRoute}
           formatStatus={formatStatus}
         />
-      </div>
 
       {/* Modals */}
       <AddZoneModal
@@ -311,7 +305,7 @@ const RoutePlanner = () => {
         type={snackBar.type}
         duration={6000}
       />
-    </div>
+    </>
   );
 };
 

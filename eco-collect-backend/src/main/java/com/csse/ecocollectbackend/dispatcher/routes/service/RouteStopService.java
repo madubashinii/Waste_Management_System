@@ -54,6 +54,19 @@ public interface RouteStopService {
     
     RouteStop updateRouteStopPhoto(Integer stopId, String photoUrl);
     
+    /**
+     * Update route stop status and create followup if status is MISSED or SKIPPED
+     */
+    RouteStop updateRouteStopStatusWithFollowup(Integer stopId, RouteStop.StopStatus status);
+    
+    /**
+     * Updates all existing route stops to have planned_eta based on their route's collection_date
+     * This method fixes route stops that were created before the planned_eta calculation was corrected
+     * 
+     * @return The number of route stops that were updated
+     */
+    int updateAllRouteStopsPlannedEta();
+    
     RouteStop updateRouteStopWeight(Integer stopId, java.math.BigDecimal weightKg);
     
     RouteStop updateRouteStopNotes(Integer stopId, String notes);

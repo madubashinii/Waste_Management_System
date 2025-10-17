@@ -10,12 +10,26 @@ import DispatcherDashboard from './pages/dispatcher/dispatcherDashboard';
 import RoutePlanner from './pages/dispatcher/routePlanner';
 import RouteStops from './pages/dispatcher/routeStops';
 import CollectorAssignment from './pages/dispatcher/collectorAssignment';
+import FollowupManagement from './pages/dispatcher/FollowupManagement';
+import Reports from './pages/dispatcher/Reports';
+import DispatcherSidebar from './components/dispatcher/DispatcherSidebar';
 import CollectorRoutesWrapper from './pages/collector/CollectorRoutesWrapper';
 
 /**
  * Layout wrapper for common pages with Header and Footer
  */
 const CommonLayout = ({ children }) => (
+    <>
+        <Header />
+        {children}
+        <Footer />
+    </>
+);
+
+/**
+ * Layout wrapper for dispatcher pages with Header and Footer
+ */
+const DispatcherLayout = ({ children }) => (
     <>
         <Header />
         {children}
@@ -34,11 +48,13 @@ function App() {
                         <Route path="/signup" element={<CommonLayout><SignUp /></CommonLayout>} />
                         <Route path="/signin" element={<CommonLayout><SignIn /></CommonLayout>} />
 
-                        {/* Dispatcher without Header and Footer */}
-                        <Route path="/dispatcher/dashboard" element={<DispatcherDashboard />} />
-                        <Route path="/dispatcher/route-planner" element={<RoutePlanner />} />
-                        <Route path="/dispatcher/route-stops" element={<RouteStops />} />
-                        <Route path="/dispatcher/collector-assignment" element={<CollectorAssignment />} />
+                        {/* Dispatcher with Sidebar, Header and Footer */}
+                        <Route path="/dispatcher/dashboard" element={<DispatcherSidebar><DispatcherDashboard /></DispatcherSidebar>} />
+                        <Route path="/dispatcher/route-planner" element={<DispatcherSidebar><RoutePlanner /></DispatcherSidebar>} />
+                        <Route path="/dispatcher/route-stops" element={<DispatcherSidebar><RouteStops /></DispatcherSidebar>} />
+                        <Route path="/dispatcher/collector-assignment" element={<DispatcherSidebar><CollectorAssignment /></DispatcherSidebar>} />
+                        <Route path="/dispatcher/followup-management" element={<DispatcherSidebar><FollowupManagement /></DispatcherSidebar>} />
+                        <Route path="/dispatcher/reports" element={<DispatcherSidebar><Reports /></DispatcherSidebar>} />
 
                         {/* Collector Pages */}
                         <Route path="/collector/*" element={<CollectorRoutesWrapper />} />
