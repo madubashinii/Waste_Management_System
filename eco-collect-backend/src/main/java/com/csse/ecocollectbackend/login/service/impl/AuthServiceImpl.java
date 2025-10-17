@@ -6,8 +6,12 @@ import com.csse.ecocollectbackend.login.dto.UserResponse;
 import com.csse.ecocollectbackend.login.entity.User;
 import com.csse.ecocollectbackend.login.repository.UserRepository;
 import com.csse.ecocollectbackend.login.service.AuthService;
+import com.csse.ecocollectbackend.common.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -43,5 +47,13 @@ public class AuthServiceImpl implements AuthService {
         }
 
         return new UserResponse(user.getUserId(), user.getName(), user.getEmail(), user.getRole());
+    }
+
+    @Override
+    public List<UserResponse> getUsersByRole(Role role) {
+        List<User> users = userRepository.findByRole(role);
+        return users.stream()
+                .map(user -> new UserResponse(user.getUserId(), user.getName(), user.getEmail(), user.getRole()))
+                .collect(Collectors.toList());
     }
 }

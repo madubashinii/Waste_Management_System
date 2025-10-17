@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 import Home from './pages/common/Home';
@@ -24,9 +25,10 @@ const CommonLayout = ({ children }) => (
 
 function App() {
   return (
-    <Router>
-      <div className="min-h-screen flex flex-col">
-        <Routes>
+    <AuthProvider>
+      <Router>
+        <div className="min-h-screen flex flex-col">
+          <Routes>
           {/* Routes with Header and Footer */}
           <Route path="/" element={<CommonLayout><Home /></CommonLayout>} />
           <Route path="/signup" element={<CommonLayout><SignUp /></CommonLayout>} />
@@ -43,9 +45,10 @@ function App() {
 
           {/* Redirect unknown paths */}
           <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </div>
-    </Router>
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 

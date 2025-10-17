@@ -4,10 +4,13 @@ import com.csse.ecocollectbackend.login.dto.SignInRequest;
 import com.csse.ecocollectbackend.login.dto.SignUpRequest;
 import com.csse.ecocollectbackend.login.dto.UserResponse;
 import com.csse.ecocollectbackend.login.service.AuthService;
+import com.csse.ecocollectbackend.common.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:5173")
+import java.util.List;
+
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"})
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -23,5 +26,10 @@ public class AuthController {
     @PostMapping("/signin")
     public UserResponse signIn(@RequestBody SignInRequest request) {
         return authService.signIn(request);
+    }
+
+    @GetMapping("/users/role/{role}")
+    public List<UserResponse> getUsersByRole(@PathVariable Role role) {
+        return authService.getUsersByRole(role);
     }
 }

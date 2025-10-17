@@ -216,7 +216,7 @@ const DispatcherDashboard = () => {
                 <div className="p-6">
                   <div className="space-y-4">
                     {dashboardData.todayRoutes.map(route => (
-                      <RouteCard key={route.id} route={route} />
+                      <RouteCard key={route.routeId} route={route} />
                     ))}
                   </div>
                 </div>

@@ -1,3 +1,5 @@
+import { zoneWardService } from './zoneWardService.js';
+
 const API_BASE_URL = 'http://localhost:8080/api/dispatcher/zones';
 
 // Handle HTTP requests
@@ -33,17 +35,27 @@ export const zoneService = {
 
   getAllZones: () => apiRequest(API_BASE_URL),
   
-  getAllZoneNames: () => apiRequest(`${API_BASE_URL}/names`),
-  
-  getWardsByZoneName: (zoneName) => 
-    apiRequest(`${API_BASE_URL}/${encodeURIComponent(zoneName)}/wards`),
-  
-  getWardByZoneNameAndWardNumber: (zoneName, wardNumber) => 
-    apiRequest(`${API_BASE_URL}/${encodeURIComponent(zoneName)}/wards/${wardNumber}`),
+  getZoneByName: (zoneName) => 
+    apiRequest(`${API_BASE_URL}/${encodeURIComponent(zoneName)}`),
   
   checkZoneExists: (zoneName) => 
     apiRequest(`${API_BASE_URL}/${encodeURIComponent(zoneName)}/exists`),
   
-  getWardCount: (zoneName) => 
-    apiRequest(`${API_BASE_URL}/${encodeURIComponent(zoneName)}/count`)
+  // Zone utility methods that work with zone data
+  getAllZoneNames: async () => {
+    const response = await apiRequest(API_BASE_URL);
+    return {
+      success: response.success,
+      data: response.data?.map(zone => zone.zoneName) || [],
+      message: response.message
+    };
+  },
+  
+  // Ward-related operations delegated to zoneWardService (following SOLID principles)
+  getWardsByZoneName: (zoneName) => zoneWardService.getWardsByZoneName(zoneName),
+  
+  getWardByZoneNameAndWardNumber: (zoneName, wardNumber) => 
+    zoneWardService.getWardByZoneNameAndWardNumber(zoneName, wardNumber),
+  
+  getWardCount: (zoneName) => zoneWardService.getWardCount(zoneName)
 };

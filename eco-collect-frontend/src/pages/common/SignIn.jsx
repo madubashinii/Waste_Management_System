@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Input, Button, UserTypeSelector, AuthLayout } from '../../components/auth/AuthComponents';
 import { signIn } from '../../services/authService';
+import { useAuth } from '../../context/AuthContext';
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -26,6 +28,9 @@ const SignIn = () => {
 
       const response = await signIn(payload);
       console.log('Login success:', response.data);
+
+      // Store user in auth context
+      login(response.data);
 
       alert(`Welcome, ${response.data.name}!`);
 
