@@ -1,16 +1,16 @@
-import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, MapPin, AlertCircle, FileText, Trash2, Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import {NavLink} from 'react-router-dom';
+import {LayoutDashboard, MapPin, AlertCircle, FileText, Trash2, Menu, X} from 'lucide-react';
+import {useState} from 'react';
 
 export default function CollectorSidebar() {
     const [isOpen, setIsOpen] = useState(false);
 
     const navItems = [
-        { to: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-        { to: 'routes', label: "Today's Routes", icon: MapPin },
-        { to: 'report', label: 'Report Issue', icon: AlertCircle },
-        { to: 'summary', label: 'Route Summary', icon: FileText },
-        { to: 'collect', label: 'Bin Collection', icon: Trash2 }
+        {to: 'dashboard', label: 'Dashboard', icon: LayoutDashboard},
+        {to: 'routes', label: "Today's Routes", icon: MapPin},
+        {to: 'report', label: 'Report Issue', icon: AlertCircle},
+        {to: 'summary', label: 'Route Summary', icon: FileText},
+        {to: 'collect', label: 'Bin Collection', icon: Trash2}
     ];
 
     return (
@@ -20,7 +20,7 @@ export default function CollectorSidebar() {
                 onClick={() => setIsOpen(!isOpen)}
                 className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-emerald-600 text-white rounded-lg shadow-lg hover:bg-emerald-700 transition-colors"
             >
-                {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {isOpen ? <X className="w-6 h-6"/> : <Menu className="w-6 h-6"/>}
             </button>
 
             {/* Overlay for mobile */}
@@ -42,7 +42,7 @@ export default function CollectorSidebar() {
                 <div className="p-6 border-b border-emerald-700">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center">
-                            <Trash2 className="w-6 h-6 text-white" />
+                            <Trash2 className="w-6 h-6 text-white"/>
                         </div>
                         <div>
                             <h2 className="text-xl font-bold text-white">Eco Collector</h2>
@@ -60,7 +60,7 @@ export default function CollectorSidebar() {
                                 <li key={item.to}>
                                     <NavLink
                                         to={item.to}
-                                        className={({ isActive }) => `
+                                        className={({isActive}) => `
                                             flex items-center gap-3 px-4 py-3 rounded-lg 
                                             transition-all duration-200 group
                                             ${isActive
@@ -70,11 +70,11 @@ export default function CollectorSidebar() {
                                         `}
                                         onClick={() => setIsOpen(false)}
                                     >
-                                        {({ isActive }) => (
+                                        {({isActive}) => (
                                             <>
                                                 <Icon className={`w-5 h-5 transition-transform group-hover:scale-110 ${
                                                     isActive ? 'text-white' : 'text-emerald-400'
-                                                }`} />
+                                                }`}/>
                                                 <span className="font-medium">{item.label}</span>
                                             </>
                                         )}

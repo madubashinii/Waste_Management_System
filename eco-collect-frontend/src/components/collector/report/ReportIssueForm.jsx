@@ -51,6 +51,7 @@ export default function ReportIssueForm({
                             <button
                                 key={type.value}
                                 onClick={() => setIssueType(type.value)}
+                                disabled={!binId}
                                 className={`p-4 rounded-lg border-2 transition-all text-left ${
                                     issueType === type.value
                                         ? 'border-orange-500 bg-orange-50 shadow-md'

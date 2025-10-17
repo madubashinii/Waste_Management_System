@@ -6,10 +6,13 @@ import com.csse.ecocollectbackend.login.dto.UserResponse;
 import com.csse.ecocollectbackend.login.service.AuthService;
 import jakarta.servlet.http.HttpSession;
 import com.csse.ecocollectbackend.login.entity.User;
+import com.csse.ecocollectbackend.common.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.List;
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -25,6 +28,11 @@ public class AuthController {
     @PostMapping("/signin")
     public UserResponse signIn(@RequestBody SignInRequest request) {
         return authService.signIn(request);
+    }
+
+    @GetMapping("/users/role/{role}")
+    public List<UserResponse> getUsersByRole(@PathVariable Role role) {
+        return authService.getUsersByRole(role);
     }
     */
     @PostMapping("/signin")
