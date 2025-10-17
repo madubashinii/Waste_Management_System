@@ -1,26 +1,20 @@
-import React, { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useState, useContext } from "react";
+import { ResidentContext } from "../../context/ResidentContext";
 
-const regularWasteTypes = ["Plastic", "Paper", "Glass", "Polythene"];
-const specialWasteTypes = ["Electronics", "Appliances", "Batteries"];
+const binTypes = ["General", "Recyclable", "Organic"];
+const pickupTypes = ["Regular", "Bulky", "Emergency"];
 
-const RequestPickup = ({ userName = "" }) => {
+const RequestPickup = ({ userId = 1 }) => {
+  const { bins, addPickupRequest } = useContext(ResidentContext);
+
+  // Mock zones derived from bins
+  const zones = [...new Map(bins.map((b) => [b.zoneId, { zone_id: b.zoneId, zone_name: `Zone ${b.zoneId}` }])).values()];
+
+  const [zoneId, setZoneId] = useState("");
+  const [ward, setWard] = useState("");
   const [pickupType, setPickupType] = useState("Regular");
-  const [address, setAddress] = useState("");
-  const [zoneId, setZoneId] = useState(""); // Selected zone
-  const [zones, setZones] = useState([]); // Available zones
   const [items, setItems] = useState([{ type: "", quantity: "" }]);
-
-  useEffect(() => {
-    // Fetch zones from backend
-    fetch("http://localhost:8080/api/zones")
-      .then((res) => res.json())
-      .then((data) => setZones(data))
-      .catch((err) => console.error(err));
-  }, []);
-
-  const wasteOptions =
-    pickupType === "Regular" ? regularWasteTypes : specialWasteTypes;
+  const [address, setAddress] = useState("");
 
   const handleItemChange = (index, field, value) => {
     const updatedItems = [...items];
@@ -28,162 +22,89 @@ const RequestPickup = ({ userName = "" }) => {
     setItems(updatedItems);
   };
 
-  const addItemCard = () => setItems([...items, { type: "", quantity: "" }]);
-  const removeItemCard = (index) =>
-    setItems(items.filter((_, i) => i !== index));
+  const addRow = () => setItems([...items, { type: "", quantity: "" }]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!zoneId) {
-      alert("Please select a zone/ward.");
-      return;
-    }
-
-    const payload = {
-      userName,
-      address,
-      pickupType,
-      zoneId,
-      items,
-    };
-
-    try {
-      const res = await fetch("http://localhost:8080/api/pickups", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      if (res.ok) {
-        alert("Pickup request submitted!");
-        setItems([{ type: "", quantity: "" }]);
-        setAddress("");
-        setZoneId("");
-      } else {
-        alert("Failed to submit request");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Error submitting request");
-    }
+    const payload = { userId, zoneId, ward, address, pickupType, items };
+    addPickupRequest(payload); // add to context
+    alert("Pickup request submitted!");
+    setItems([{ type: "", quantity: "" }]);
+    setZoneId("");
+    setWard("");
+    setAddress("");
+    setPickupType("Regular");
   };
 
   return (
-    <div className="container mt-4">
-      <h4 className="mb-4">Request Pickup</h4>
+    <div className="form-container" style={{ maxWidth: "800px", margin: "40px auto", padding: "30px", background: "white", borderRadius: "12px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)" }}>
+      <h4 className="mb-4 text-success">
+        <i className="fa-solid fa-truck"></i> Request Pickup
+      </h4>
+
       <form onSubmit={handleSubmit}>
+        {/* Pickup Type */}
         <div className="mb-3">
-          <label className="form-label">Name</label>
-          <input className="form-control" value={userName} readOnly />
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">Pickup Address</label>
-          <input
-            className="form-control"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">Zone/Ward</label>
-          <select
-            className="form-select"
-            value={zoneId}
-            onChange={(e) => setZoneId(e.target.value)}
-            required
-          >
-            <option value="">Select Zone/Ward</option>
-            {zones.map((zone) => (
-              <option key={zone.zoneId} value={zone.zoneId}>
-                {zone.zoneName} - {zone.wardName} ({zone.wardNumber})
-              </option>
+          <label className="form-label">Pickup Type</label>
+          <select className="form-select" value={pickupType} onChange={(e) => setPickupType(e.target.value)}>
+            {pickupTypes.map((pt) => (
+              <option key={pt} value={pt}>{pt}</option>
             ))}
           </select>
         </div>
 
+        {/* Zone & Ward */}
+        <div className="row g-3 mb-3">
+          <div className="col-md-6">
+            <label className="form-label">Zone</label>
+            <select className="form-select" value={zoneId} onChange={(e) => setZoneId(e.target.value)} required>
+              <option value="">Select Zone</option>
+              {zones.map((z) => (
+                <option key={z.zone_id} value={z.zone_id}>{z.zone_name}</option>
+              ))}
+            </select>
+          </div>
+          <div className="col-md-6">
+            <label className="form-label">Ward</label>
+            <input type="text" className="form-control" value={ward} onChange={(e) => setWard(e.target.value)} required />
+          </div>
+        </div>
+
+        {/* Address */}
         <div className="mb-3">
-          <label className="form-label">Pickup Type</label>
-          <select
-            className="form-select"
-            value={pickupType}
-            onChange={(e) => {
-              setPickupType(e.target.value);
-              setItems([{ type: "", quantity: "" }]);
-            }}
-          >
-            <option value="Regular">Regular</option>
-            <option value="Special">Special</option>
-          </select>
+          <label className="form-label">Pickup Address</label>
+          <input type="text" className="form-control" value={address} onChange={(e) => setAddress(e.target.value)} required />
         </div>
 
         <hr />
 
+        {/* Items */}
         {items.map((item, index) => (
-          <div
-            key={index}
-            className="card mb-3 p-3 shadow-sm"
-            style={{ borderRadius: "10px" }}
-          >
-            <div className="row g-3 align-items-end">
-              <div className="col-md-6">
-                <label className="form-label">Waste Type</label>
-                <select
-                  className="form-select"
-                  value={item.type}
-                  onChange={(e) =>
-                    handleItemChange(index, "type", e.target.value)
-                  }
-                  required
-                >
-                  <option value="">Select Waste</option>
-                  {wasteOptions.map((w) => (
-                    <option key={w} value={w}>
-                      {w}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="col-md-4">
-                <label className="form-label">Number of Items</label>
-                <input
-                  type="number"
-                  min="1"
-                  className="form-control"
-                  value={item.quantity}
-                  onChange={(e) =>
-                    handleItemChange(index, "quantity", e.target.value)
-                  }
-                  required
-                />
-              </div>
-
-              <div className="col-md-2 d-flex justify-content-end">
-                <button
-                  type="button"
-                  className="btn btn-outline-danger"
-                  onClick={() => removeItemCard(index)}
-                >
-                  Remove
-                </button>
-              </div>
+          <div className="row g-3 mb-3" key={index}>
+            <div className="col-md-6">
+              <label className="form-label">Item Type</label>
+              <select className="form-select" value={item.type} onChange={(e) => handleItemChange(index, "type", e.target.value)} required>
+                <option value="">Select</option>
+                {binTypes.map((type) => (
+                  <option key={type} value={type}>{type}</option>
+                ))}
+              </select>
+            </div>
+            <div className="col-md-4">
+              <label className="form-label">Quantity (kg)</label>
+              <input type="number" step="0.1" min="0" className="form-control" value={item.quantity} onChange={(e) => handleItemChange(index, "quantity", e.target.value)} required />
+            </div>
+            <div className="col-md-2 d-flex align-items-end">
+              <button type="button" className="btn btn-outline-success" onClick={addRow}>
+                <i className="fa-solid fa-plus"></i> Add
+              </button>
             </div>
           </div>
         ))}
 
-        <button
-          type="button"
-          className="btn btn-outline-success mb-3"
-          onClick={addItemCard}
-        >
-          + Add Another Item
-        </button>
-
         <div className="text-end">
           <button type="submit" className="btn btn-success">
-            Submit Pickup Request
+            <i className="fa-solid fa-paper-plane"></i> Submit Request
           </button>
         </div>
       </form>

@@ -1,24 +1,23 @@
 package com.csse.ecocollectbackend.resident.controller;
 
 import com.csse.ecocollectbackend.resident.dto.PickupRequest;
-import com.csse.ecocollectbackend.resident.service.PickupService;
+import com.csse.ecocollectbackend.resident.service.impl.PickupServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/pickups")
+
 public class PickupController {
 
-    private final PickupService pickupService;
-
-    public PickupController(PickupService pickupService) {
-        this.pickupService = pickupService;
-    }
+    @Autowired
+    private PickupServiceImpl pickupService;
 
     @PostMapping
-    public ResponseEntity<?> createPickup(@RequestBody PickupRequest request) {
-        pickupService.savePickup(request);
-        return ResponseEntity.ok().body("Pickup request created successfully");
+    public ResponseEntity<String> createPickup(@RequestBody PickupRequest request) {
+        pickupService.createPickup(request);
+        return ResponseEntity.ok("Pickup created");
     }
 }
 

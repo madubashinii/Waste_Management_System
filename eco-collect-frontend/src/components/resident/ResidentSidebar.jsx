@@ -10,6 +10,10 @@ export default function ResidentSidebar() {
                     <li><NavLink to="bins">Bins</NavLink></li>
                     <li><NavLink to="billing">Billing</NavLink></li>
                     <li><NavLink to="request-form">New Request</NavLink></li>
+                    <li><NavLink to="profile">profile</NavLink></li>
+                    <li><NavLink to="notifications">notifications</NavLink></li>
+                    <li><NavLink to="wasteform">wasteform</NavLink></li>
+
                 </ul>
             </nav>
         </div>

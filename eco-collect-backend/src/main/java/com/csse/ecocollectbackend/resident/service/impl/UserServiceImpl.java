@@ -1,8 +1,9 @@
-package com.csse.ecocollectbackend.resident.service;
+package com.csse.ecocollectbackend.resident.service.impl;
 
 import com.csse.ecocollectbackend.login.entity.User;
 import com.csse.ecocollectbackend.login.repository.UserRepository;
 
+import com.csse.ecocollectbackend.resident.service.UserService;
 import org.springframework.stereotype.Service;
 
 @Service

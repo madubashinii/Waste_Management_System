@@ -1,7 +1,8 @@
-package com.csse.ecocollectbackend.resident.service;
+package com.csse.ecocollectbackend.resident.service.impl;
 
 import com.csse.ecocollectbackend.resident.dto.RequestDTO;
 import com.csse.ecocollectbackend.resident.dto.RequestDetailsDTO;
+import com.csse.ecocollectbackend.resident.service.RequestService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

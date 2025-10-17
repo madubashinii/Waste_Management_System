@@ -1,6 +1,5 @@
 package com.csse.ecocollectbackend.resident.entity;
 
-import com.csse.ecocollectbackend.login.entity.User;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,9 +14,8 @@ public class Billing {
     @Column(name = "invoice_id")
     private Integer invoiceId;
 
-    @ManyToOne
-    @JoinColumn(name = "resident_id")
-    private User resident;  // references login.User entity
+    @Column(name = "resident_id")
+    private Integer residentId;
 
     @Column(name = "resident_name")
     private String residentName;
@@ -26,7 +24,7 @@ public class Billing {
     private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
-    private Status status = Status.draft;
+    private BillingStatus status = BillingStatus.draft;
 
     @Column(name = "due_date")
     private LocalDate dueDate;
@@ -43,16 +41,14 @@ public class Billing {
     @Column(name = "updated_at", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 
-    public enum Status {
-        draft, approved, sent, paid, unpaid, overdue
-    }
+    public enum BillingStatus { draft, approved, sent, paid, unpaid, overdue }
 
     // Getters and setters
     public Integer getInvoiceId() { return invoiceId; }
     public void setInvoiceId(Integer invoiceId) { this.invoiceId = invoiceId; }
 
-    public User getResident() { return resident; }
-    public void setResident(User resident) { this.resident = resident; }
+    public Integer getResidentId() { return residentId; }
+    public void setResidentId(Integer residentId) { this.residentId = residentId; }
 
     public String getResidentName() { return residentName; }
     public void setResidentName(String residentName) { this.residentName = residentName; }
@@ -60,8 +56,8 @@ public class Billing {
     public BigDecimal getAmount() { return amount; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }
 
-    public Status getStatus() { return status; }
-    public void setStatus(Status status) { this.status = status; }
+    public BillingStatus getStatus() { return status; }
+    public void setStatus(BillingStatus status) { this.status = status; }
 
     public LocalDate getDueDate() { return dueDate; }
     public void setDueDate(LocalDate dueDate) { this.dueDate = dueDate; }

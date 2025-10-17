@@ -13,6 +13,8 @@ public interface BillingRepository extends JpaRepository<Billing, Integer> {
     List<Billing> findByResident(User resident);
 
     // Find invoices by status
-    List<Billing> findByStatus(Billing.Status status);
+    List<Billing> findByStatus(Billing.BillingStatus status);
+
+    List<Billing> findByResidentId(Integer residentId);
 }
 

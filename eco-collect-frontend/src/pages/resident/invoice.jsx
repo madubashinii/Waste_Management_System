@@ -1,107 +1,64 @@
-import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import jsPDF from "jspdf";
 
-const InvoicePage = ({
-  invoiceId = "INV-001",
-  userName = "John Doe",
-  address = "123 Main Street, Colombo",
-  itemTypes = ["Plastic", "Organic", "Paper"],
-  quantities = [10, 5, 7],
-  totals = [500, 250, 350],
-  grandTotal = 1100,
-  onSlipUpload, // optional handler for upload
-  onDownload, // optional handler for download
-}) => {
-  const handleUpload = (e) => {
-    e.preventDefault();
-    if (onSlipUpload) onSlipUpload(e);
+const BillingDetail = () => {
+  const { invoiceId } = useParams();
+  const [billing, setBilling] = useState(null);
+  const [payment, setPayment] = useState({ transactionId: "", paymentDate: "", amount: "", bank: "" });
+
+  useEffect(() => {
+    fetch(`/api/billing/${invoiceId}`)
+      .then(res => res.json())
+      .then(data => setBilling(data));
+  }, [invoiceId]);
+
+  const handleChange = (e) => {
+    setPayment({ ...payment, [e.target.name]: e.target.value });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetch("/api/billing/payment", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...payment, invoiceId: billing.invoiceId })
+    }).then(() => alert("Payment submitted successfully!"));
+  };
+
+  const downloadPDF = () => {
+    const doc = new jsPDF();
+    doc.text(`Invoice #${billing.invoiceId}`, 20, 20);
+    doc.text(`Resident: ${billing.residentName}`, 20, 30);
+    doc.text(`Amount: $${billing.amount}`, 20, 40);
+    doc.text(`Status: ${billing.status}`, 20, 50);
+    doc.save(`Invoice_${billing.invoiceId}.pdf`);
+  };
+
+  if (!billing) return <p>Loading...</p>;
+
   return (
-    <div
-      className="invoice-container"
-      style={{
-        maxWidth: "800px",
-        margin: "40px auto",
-        background: "white",
-        padding: "30px",
-        borderRadius: "12px",
-        boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-        fontFamily: "'Segoe UI', sans-serif",
-      }}
-    >
-      <h4 className="text-success mb-4">Invoice</h4>
+    <div className="container mt-4">
+      <h4>Invoice #{billing.invoiceId}</h4>
+      <p><strong>Resident:</strong> {billing.residentName}</p>
+      <p><strong>Amount:</strong> ${billing.amount}</p>
+      <p><strong>Status:</strong> {billing.status}</p>
+      <p><strong>Billing Period:</strong> {billing.billingPeriodStart} - {billing.billingPeriodEnd}</p>
 
-      <p>
-        <strong>Invoice ID:</strong> {invoiceId}
-      </p>
-      <p>
-        <strong>Name:</strong> {userName}
-      </p>
-      <p>
-        <strong>Address:</strong> {address}
-      </p>
+      <button className="btn btn-primary mb-3" onClick={downloadPDF}>Download PDF</button>
 
-      <hr />
-
-      {/* Table Section */}
-      <table className="table table-bordered">
-        <thead>
-          <tr>
-            <th>Item Type</th>
-            <th>Quantity (kg)</th>
-            <th>Total (Rs)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {itemTypes.map((type, index) => (
-            <tr key={index}>
-              <td>{type}</td>
-              <td>{quantities[index]}</td>
-              <td>Rs. {totals[index]}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <div className="text-end fs-5 fw-semibold text-success">
-        Grand Total: Rs. {grandTotal}
-      </div>
-
-      <hr />
-
-      {/* Upload Payment Slip */}
-      <h5 className="mt-4">Upload Payment Slip</h5>
-      <form
-        onSubmit={handleUpload}
-        encType="multipart/form-data"
-      >
-        <input type="hidden" name="invoiceId" value={invoiceId} />
-        <div className="mb-3">
-          <input
-            type="file"
-            name="slipFile"
-            className="form-control"
-            accept="image/*,.pdf"
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-success">
-          Upload Slip
-        </button>
-      </form>
-
-      <div className="mt-3">
-        <button
-          className="btn btn-outline-success"
-          onClick={onDownload || (() => alert("Download PDF"))}
-        >
-          <i className="fa-solid fa-file-pdf"></i> Download Invoice PDF
-        </button>
-      </div>
+      {billing.status !== "paid" && (
+        <form onSubmit={handleSubmit}>
+          <h5>Submit Payment</h5>
+          <input type="text" name="transactionId" placeholder="Transaction ID" className="form-control mb-2" onChange={handleChange} required/>
+          <input type="date" name="paymentDate" className="form-control mb-2" onChange={handleChange} required/>
+          <input type="number" name="amount" placeholder="Amount" className="form-control mb-2" onChange={handleChange} required/>
+          <input type="text" name="bank" placeholder="Bank" className="form-control mb-2" onChange={handleChange} required/>
+          <button className="btn btn-success mt-2" type="submit">Submit Payment</button>
+        </form>
+      )}
     </div>
   );
 };
 
-export default InvoicePage;
+export default BillingDetail;

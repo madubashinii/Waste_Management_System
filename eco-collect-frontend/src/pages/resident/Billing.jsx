@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const BillingList = ({ residentId }) => {
   const [billings, setBillings] = useState([]);
-  const [filterStatus, setFilterStatus] = useState("all"); // all, processed, unpaid, paid
+  const [filterStatus, setFilterStatus] = useState("all");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,43 +15,35 @@ const BillingList = ({ residentId }) => {
   }, [residentId, filterStatus]);
 
   const handlePay = (invoiceId) => {
-    navigate(`/payment/${invoiceId}`);
+    navigate(`/billing/${invoiceId}`);
   };
-
-  const processedStatuses = ["draft", "approved", "sent"];
 
   return (
     <div>
       <h4>Billing Records</h4>
 
       <div className="mb-3">
-        <button className="btn btn-outline-primary me-2" onClick={() => setFilterStatus("all")}>All</button>
-        <button className="btn btn-outline-secondary me-2" onClick={() => setFilterStatus("processed")}>Processed</button>
-        <button className="btn btn-outline-success me-2" onClick={() => setFilterStatus("unpaid")}>Unpaid</button>
-        <button className="btn btn-outline-info me-2" onClick={() => setFilterStatus("paid")}>Paid</button>
+        {["all","processed","unpaid","paid"].map(s => (
+          <button key={s} className="btn btn-outline-primary me-2" onClick={() => setFilterStatus(s)}>
+            {s.charAt(0).toUpperCase() + s.slice(1)}
+          </button>
+        ))}
       </div>
 
-      {billings.length === 0 ? (
-        <p>No billing records found.</p>
-      ) : (
+      {billings.length === 0 ? <p>No billing records found.</p> :
         <ul className="list-group">
           {billings.map(bill => (
             <li key={bill.invoiceId} className="list-group-item d-flex justify-content-between align-items-center">
               <div>
                 <strong>{bill.invoiceId}</strong> — {bill.residentName} — {bill.status} — ${bill.amount}
               </div>
-              {bill.status === "unpaid" && (
-                  <div>
-                  <strong>{bill.dueDate}</strong>
-                <button className="btn btn-sm btn-warning" onClick={() => handlePay(bill.invoiceId)}>
-                  Pay Now
-                </button>
-                </div>
-              )}
+              {bill.status === "unpaid" &&
+                <button className="btn btn-sm btn-warning" onClick={() => handlePay(bill.invoiceId)}>Pay Now</button>
+              }
             </li>
           ))}
         </ul>
-      )}
+      }
     </div>
   );
 };
