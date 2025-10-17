@@ -16,7 +16,7 @@ export default function BinCard({stop, index, routeId}) {
     const handleReportIssue = async (type) => {
         const note = prompt(`Report issue (${type}):`, type);
         if (note) {
-            await reportIssue(routeId, stop.binId, note);
+            await reportIssue({routeId, binId: stop.binId, status: type, remarks: note});
         }
     };
 

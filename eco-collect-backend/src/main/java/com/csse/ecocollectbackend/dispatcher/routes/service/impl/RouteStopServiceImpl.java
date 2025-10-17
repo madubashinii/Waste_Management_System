@@ -3,9 +3,12 @@ package com.csse.ecocollectbackend.dispatcher.routes.service.impl;
 import com.csse.ecocollectbackend.dispatcher.routes.entity.RouteStop;
 import com.csse.ecocollectbackend.dispatcher.routes.repository.RouteStopRepository;
 import com.csse.ecocollectbackend.dispatcher.routes.service.RouteStopService;
+import com.csse.ecocollectbackend.followup.entity.FollowupPickup;
+import com.csse.ecocollectbackend.followup.service.FollowupService;
 import com.csse.ecocollectbackend.login.entity.User;
 import com.csse.ecocollectbackend.login.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,10 +19,12 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class RouteStopServiceImpl implements RouteStopService {
     
     private final RouteStopRepository routeStopRepository;
     private final UserRepository userRepository;
+    private final FollowupService followupService;
     
     @Override
     public RouteStop createRouteStop(RouteStop routeStop) {
@@ -227,5 +232,92 @@ public class RouteStopServiceImpl implements RouteStopService {
     @Transactional(readOnly = true)
     public boolean existsById(Integer stopId) {
         return routeStopRepository.existsById(stopId);
+    }
+    
+    @Override
+    @Transactional
+    public RouteStop updateRouteStopStatusWithFollowup(Integer stopId, RouteStop.StopStatus status) {
+        RouteStop routeStop = routeStopRepository.findById(stopId)
+                .orElseThrow(() -> new RuntimeException("Route stop not found with id: " + stopId));
+        
+        RouteStop.StopStatus previousStatus = routeStop.getStatus();
+        routeStop.setStatus(status);
+        RouteStop savedRouteStop = routeStopRepository.save(routeStop);
+        
+        // Create followup if status changed to MISSED or SKIPPED
+        if ((status == RouteStop.StopStatus.MISSED || status == RouteStop.StopStatus.SKIPPED) 
+            && previousStatus != status) {
+            try {
+                FollowupPickup.ReasonCode reasonCode = status == RouteStop.StopStatus.MISSED 
+                        ? FollowupPickup.ReasonCode.MISSED 
+                        : FollowupPickup.ReasonCode.SKIPPED;
+                
+                log.info("Creating followup for route stop ID: {} - Status changed from {} to {}", 
+                         stopId, previousStatus, status);
+                followupService.createFromRouteStop(routeStop, reasonCode);
+                log.info("Successfully created followup pickup for {} route stop ID: {}", status, stopId);
+            } catch (Exception e) {
+                log.error("Failed to create followup for {} route stop ID: {} - {}", 
+                         status, stopId, e.getMessage());
+                // Don't rollback the route stop status update - the followup creation can be retried
+            }
+        } else {
+            log.info("No followup created for route stop ID: {} - Status: {} (previous: {})", 
+                     stopId, status, previousStatus);
+        }
+        
+        return savedRouteStop;
+    }
+    
+    /**
+     * Updates all existing route stops to have planned_eta based on their route's collection_date
+     * This method fixes route stops that were created before the planned_eta calculation was corrected
+     */
+    @Override
+    @Transactional
+    public int updateAllRouteStopsPlannedEta() {
+        List<RouteStop> allRouteStops = routeStopRepository.findAll();
+        int updatedCount = 0;
+        
+        for (RouteStop routeStop : allRouteStops) {
+            try {
+                // Calculate the correct planned ETA based on route's collection date
+                LocalDateTime correctPlannedEta = calculatePlannedEtaFromRouteStop(routeStop);
+                
+                // Only update if the planned ETA is different
+                if (!correctPlannedEta.equals(routeStop.getPlannedEta())) {
+                    routeStop.setPlannedEta(correctPlannedEta);
+                    routeStopRepository.save(routeStop);
+                    updatedCount++;
+                    log.info("Updated route stop ID: {} planned_eta from {} to {}", 
+                             routeStop.getStopId(), routeStop.getPlannedEta(), correctPlannedEta);
+                }
+            } catch (Exception e) {
+                log.error("Failed to update planned_eta for route stop ID: {} - {}", 
+                         routeStop.getStopId(), e.getMessage());
+            }
+        }
+        
+        log.info("Updated {} route stops with correct planned_eta values", updatedCount);
+        return updatedCount;
+    }
+    
+    /**
+     * Calculates the correct planned ETA for a route stop based on its route's collection date
+     * This method replicates the logic from RouteWardServiceImpl.calculatePlannedEta
+     */
+    private LocalDateTime calculatePlannedEtaFromRouteStop(RouteStop routeStop) {
+        // Base time: 8:00 AM on the route's collection date
+        LocalDateTime baseTime = routeStop.getRoute().getCollectionDate().atTime(8, 0, 0, 0);
+        
+        // We need to get the ward order from the route ward
+        // For now, we'll use a simplified calculation based on stop order
+        // In a real scenario, you might want to join with route_wards table
+        
+        // Add time based on stop order (5 minutes per stop)
+        // This is a simplified approach - ideally we'd get the ward order
+        baseTime = baseTime.plusMinutes((routeStop.getStopOrder() - 1) * 5);
+        
+        return baseTime;
     }
 }

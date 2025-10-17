@@ -75,7 +75,7 @@ public class RouteWardServiceImpl implements RouteWardService {
             routeStop.setWeightKg(BigDecimal.ZERO);
             
             // Set planned ETA based on ward order and stop order
-            LocalDateTime plannedEta = calculatePlannedEta(routeWard.getWardOrder(), stopOrder);
+            LocalDateTime plannedEta = calculatePlannedEta(routeWard.getRoute(), routeWard.getWardOrder(), stopOrder);
             routeStop.setPlannedEta(plannedEta);
             
             routeStopRepository.save(routeStop);
@@ -211,10 +211,11 @@ public class RouteWardServiceImpl implements RouteWardService {
     
     /**
      * Calculates planned ETA for a route stop based on ward order and stop order
+     * Uses the route's collection_date as the base date instead of current date
      */
-    private LocalDateTime calculatePlannedEta(Integer wardOrder, Integer stopOrder) {
-        // Base time: 8:00 AM
-        LocalDateTime baseTime = LocalDateTime.now().withHour(8).withMinute(0).withSecond(0).withNano(0);
+    private LocalDateTime calculatePlannedEta(Route route, Integer wardOrder, Integer stopOrder) {
+        // Base time: 8:00 AM on the route's collection date
+        LocalDateTime baseTime = route.getCollectionDate().atTime(8, 0, 0, 0);
         
         // Add time based on ward order (30 minutes per ward)
         baseTime = baseTime.plusMinutes((wardOrder - 1) * 30);

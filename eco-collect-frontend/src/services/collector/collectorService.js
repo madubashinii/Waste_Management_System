@@ -43,13 +43,17 @@ export const markBinCollected = async ({binId, routeId, collectorId, weight}) =>
 };
 
 // === Report bin issue ===
-export const reportBinIssue = async ({routeId, binId, collectorId, note}) => {
+export const reportBinIssue = async ({routeId, binId, collectorId, note, status = 'MISSED'}) => {
     try {
-        const res = await API.post(`/collector/collections/report-issue`, {
-            routeId,
-            binId,
-            collectorId,
-            note,
+        // Use the new route stop report-issue endpoint instead of the commented out collector endpoint
+        const res = await API.post(`/route-stops/report-issue`, null, {
+            params: {
+                routeId,
+                binId,
+                collectorId,
+                status,
+                remarks: note
+            }
         });
         console.log("reportBinIssue success:", res.data);
         return true;

@@ -75,9 +75,9 @@ export const CollectorProvider = ({children}) => {
     };
 
     // === Report bin issue ===
-    const reportIssue = async (routeId, binId, note) => {
+    const reportIssue = async (params) => {
         if (!collectorId) return;
-        const success = await reportBinIssue({routeId, binId, collectorId, note});
+        const success = await reportBinIssue({...params, collectorId});
         if (success) await fetchTodayRoute();
     };
 

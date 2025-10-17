@@ -172,6 +172,16 @@ const routeStopService = {
     }
   },
 
+  // Update route stop status with automatic followup creation
+  updateRouteStopStatusWithFollowup: async (stopId, status) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/${stopId}/status-with-followup?status=${status}`, fetchConfig('PUT'));
+      return handleResponse(response);
+    } catch (error) {
+      handleError(error);
+    }
+  },
+
   // Update route stop collected status
   updateRouteStopCollected: async (stopId, collected) => {
     try {

@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import Header from '../common/Header';
+import Footer from '../common/Footer';
 import {
   HiOutlineViewGrid,
-  HiOutlineCalendar,
   HiOutlineTruck,
   HiOutlineLocationMarker,
   HiOutlineBell,
@@ -20,8 +21,7 @@ const MENU_ITEMS = [
   { icon: HiOutlineLocationMarker, label: 'Route Planner', path: '/dispatcher/route-planner', description: 'Generate & publish routes' },
   { icon: HiOutlineMap, label: 'Route Stops', path: '/dispatcher/route-stops', description: 'Manage route stops' },
   { icon: HiOutlineTruck, label: 'Collector Assignment', path: '/dispatcher/collector-assignment', description: 'Assign collectors & vehicles' },
-  { icon: HiOutlineCalendar, label: 'Schedules', path: '/dispatcher/schedules', description: 'Recurring rules' },
-  { icon: HiOutlineBell, label: 'Alerts', path: '/dispatcher/alerts', description: 'Notifications & follow-ups' },
+  { icon: HiOutlineBell, label: 'Followup Management', path: '/dispatcher/followup-management', description: 'Manage followup pickups' },
   { icon: HiOutlineChartBar, label: 'Reports', path: '/dispatcher/reports', description: 'Analytics & insights' },
 ];
 
@@ -111,7 +111,7 @@ const DesktopSidebar = ({ currentPath }) => (
 );
 
 // Main Component
-const DispatcherSidebar = () => {
+const DispatcherSidebar = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
@@ -119,11 +119,27 @@ const DispatcherSidebar = () => {
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   return (
-    <>
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      
+      {/* Mobile Menu Button */}
       <MobileMenuButton isOpen={isMobileMenuOpen} onClick={toggleMobileMenu} />
+      
+      {/* Mobile Sidebar */}
       <MobileSidebar isOpen={isMobileMenuOpen} onClose={closeMobileMenu} currentPath={location.pathname} />
+      
+      {/* Desktop Sidebar */}
       <DesktopSidebar currentPath={location.pathname} />
-    </>
+      
+      {/* Main Content */}
+      <div className="lg:pl-72">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-8">
+          {children}
+        </div>
+      </div>
+      
+      <Footer />
+    </div>
   );
 };
 

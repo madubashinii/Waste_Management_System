@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import DispatcherSidebar from '../../components/dispatcher/DispatcherSidebar';
 import RouteStopsTable from '../../components/dispatcher/RouteStopsTable';
 import RouteStopsFilterBar from '../../components/dispatcher/RouteStopsFilterBar';
 import { mockBins, getBinByQrCode } from '../../data/mockBinsData';
@@ -154,50 +153,33 @@ const RouteStops = () => {
 
 
   if (loading) {
-  return (
-      <div className="min-h-screen bg-gray-50">
-        <DispatcherSidebar />
-        <div className="lg:pl-72">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 lg:pt-8 pb-8">
-            <div className="flex items-center justify-center h-64">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto mb-4"></div>
-                <p className="text-gray-600">Loading route stops...</p>
-              </div>
-            </div>
-          </div>
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading route stops...</p>
         </div>
-            </div>
+      </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <DispatcherSidebar />
-        <div className="lg:pl-72">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 lg:pt-8 pb-8">
-            <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-              <h3 className="text-lg font-semibold text-red-800 mb-2">Error Loading Data</h3>
-              <p className="text-red-600 mb-4">{error}</p>
-            <button
-                onClick={loadData}
-                className="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg transition-colors"
-            >
-                Retry
-            </button>
-          </div>
-        </div>
+      <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+        <h3 className="text-lg font-semibold text-red-800 mb-2">Error Loading Data</h3>
+        <p className="text-red-600 mb-4">{error}</p>
+        <button
+          onClick={loadData}
+          className="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg transition-colors"
+        >
+          Retry
+        </button>
       </div>
-    </div>
-  );
+    );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <DispatcherSidebar />
-      <div className="lg:pl-72">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 lg:pt-8 pb-8">
+    <>
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center justify-between">
@@ -228,10 +210,7 @@ const RouteStops = () => {
             onViewPhoto={handleViewPhoto}
             selectedRoute={selectedRoute}
           />
-
-        </div>
-      </div>
-    </div>
+    </>
   );
 };
 
