@@ -1,5 +1,3 @@
-/*
-// COMMENTED OUT - Collector functionality not in use currently
 package com.csse.ecocollectbackend.collector.service;
 
 import com.csse.ecocollectbackend.collector.dto.CollectionUpdateRequest;
@@ -19,4 +17,3 @@ public interface CollectorService {
 
     boolean markNotificationAsRead(Integer notificationId);
 }
-*/
