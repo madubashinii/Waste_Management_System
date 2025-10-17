@@ -1,3 +1,5 @@
+/*
+// COMMENTED OUT - Collector functionality not in use currently
 package com.csse.ecocollectbackend.collector.dto;
 
 import lombok.AllArgsConstructor;
@@ -18,3 +20,4 @@ public class CollectorRouteDTO {
     private String collectionDate;
     private List<CollectorRouteStopDTO> stops;
 }
+*/

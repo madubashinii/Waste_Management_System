@@ -125,7 +125,7 @@ public class RouteStopController {
     }
     
     @GetMapping("/bin/{binId}")
-    public ResponseEntity<ApiResponse<List<RouteStop>>> getRouteStopsByBinId(@PathVariable Integer binId) {
+    public ResponseEntity<ApiResponse<List<RouteStop>>> getRouteStopsByBinId(@PathVariable String binId) {
         try {
             List<RouteStop> routeStops = routeStopService.getRouteStopsByBinId(binId);
             return ResponseEntity.ok(new ApiResponse<>(true, "Route stops retrieved successfully", routeStops));

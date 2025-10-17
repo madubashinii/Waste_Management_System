@@ -22,7 +22,7 @@ public interface RouteStopRepository extends JpaRepository<RouteStop, Integer> {
     
     List<RouteStop> findByDriverUserIdAndStatus(Integer driverId, RouteStop.StopStatus status);
     
-    List<RouteStop> findByBinId(Integer binId);
+    List<RouteStop> findByBinId(String binId);
     
     List<RouteStop> findByStatus(RouteStop.StopStatus status);
     
@@ -40,7 +40,7 @@ public interface RouteStopRepository extends JpaRepository<RouteStop, Integer> {
     @Query("SELECT rs FROM RouteStop rs WHERE rs.arrivedAt BETWEEN :startTime AND :endTime")
     List<RouteStop> findByArrivedAtBetween(@Param("startTime") LocalDateTime startTime, @Param("endTime") LocalDateTime endTime);
     
-    Optional<RouteStop> findByRouteRouteIdAndBinId(Integer routeId, Integer binId);
+    Optional<RouteStop> findByRouteRouteIdAndBinId(Integer routeId, String binId);
     
     @Query("SELECT COUNT(rs) FROM RouteStop rs WHERE rs.route.routeId = :routeId")
     Long countByRoute(@Param("routeId") Integer routeId);

@@ -64,7 +64,7 @@ public class RouteStopServiceImpl implements RouteStopService {
     
     @Override
     @Transactional(readOnly = true)
-    public List<RouteStop> getRouteStopsByBinId(Integer binId) {
+    public List<RouteStop> getRouteStopsByBinId(String binId) {
         return routeStopRepository.findByBinId(binId);
     }
     
@@ -106,7 +106,7 @@ public class RouteStopServiceImpl implements RouteStopService {
     
     @Override
     @Transactional(readOnly = true)
-    public Optional<RouteStop> getRouteStopByRouteIdAndBinId(Integer routeId, Integer binId) {
+    public Optional<RouteStop> getRouteStopByRouteIdAndBinId(Integer routeId, String binId) {
         return routeStopRepository.findByRouteRouteIdAndBinId(routeId, binId);
     }
     

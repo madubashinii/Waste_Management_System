@@ -52,15 +52,15 @@ public class RouteWardServiceImpl implements RouteWardService {
      * Creates route stops for all ACTIVE bins in the specified ward
      * This method automatically creates route stops based on the mockBinsData.js structure
      * Only bins with status = 'Active' will have route stops created
-     * In a real application, this would query: SELECT bin_id FROM bins WHERE ward_id = wardNumber AND status = 'Active'
+  
      */
     private void createRouteStopsForWard(RouteWard routeWard, Integer wardNumber) {
         // Get all ACTIVE bins for this ward from mockBinsData.js structure
         // In a real application, you would query: SELECT bin_id FROM bins WHERE ward_id = wardNumber AND status = 'Active'
-        List<Integer> binIds = getActiveBinIdsForWard(wardNumber);
+        List<String> binIds = getActiveBinIdsForWard(wardNumber);
         
         int stopOrder = 1;
-        for (Integer binId : binIds) {
+        for (String binId : binIds) {
             RouteStop routeStop = new RouteStop();
             routeStop.setRoute(routeWard.getRoute());
             routeStop.setBinId(binId);
@@ -82,13 +82,13 @@ public class RouteWardServiceImpl implements RouteWardService {
     
     /**
      * Gets active bin IDs for a specific ward
-     * This implementation mirrors the actual mockBinsData.js structure
+
      * Only returns bins with status = 'Active'
      */
-    private List<Integer> getActiveBinIdsForWard(Integer wardNumber) {
+    private List<String> getActiveBinIdsForWard(Integer wardNumber) {
         // Mock data structure matching mockBinsData.js
         // Each ward has 5 bins, but only Active bins should have route stops
-        List<Integer> activeBinIds = new java.util.ArrayList<>();
+        List<String> activeBinIds = new java.util.ArrayList<>();
         
         // Calculate bin ID range for this ward (each ward has 5 bins)
         int startBinId = (wardNumber - 1) * 5 + 1;
@@ -98,7 +98,7 @@ public class RouteWardServiceImpl implements RouteWardService {
         for (int binId = startBinId; binId <= endBinId; binId++) {
             String binStatus = getBinStatusFromMockData(binId);
             if ("Active".equals(binStatus)) {
-                activeBinIds.add(binId);
+                activeBinIds.add(String.valueOf(binId));
             }
         }
         
@@ -268,10 +268,10 @@ public class RouteWardServiceImpl implements RouteWardService {
      */
     private void deleteRouteStopsForWard(Integer routeId, Integer wardNumber) {
         // Get all bin IDs for this ward
-        List<Integer> binIds = getActiveBinIdsForWard(wardNumber);
+        List<String> binIds = getActiveBinIdsForWard(wardNumber);
         
         // Delete route stops for each bin in this ward
-        for (Integer binId : binIds) {
+        for (String binId : binIds) {
             routeStopRepository.findByRouteRouteIdAndBinId(routeId, binId)
                     .ifPresent(routeStop -> routeStopRepository.deleteById(routeStop.getStopId()));
         }

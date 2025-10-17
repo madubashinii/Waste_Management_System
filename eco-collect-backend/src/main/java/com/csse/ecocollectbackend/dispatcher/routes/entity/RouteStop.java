@@ -26,7 +26,7 @@ public class RouteStop {
     private Route route;
     
     @Column(name = "bin_id", nullable = false)
-    private Integer binId;
+    private String binId;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "driver_id")

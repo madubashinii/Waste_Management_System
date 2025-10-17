@@ -1,3 +1,5 @@
+/*
+// COMMENTED OUT - Collector functionality not in use currently
 package com.csse.ecocollectbackend.collector.service.impl;
 
 
@@ -150,3 +152,4 @@ public class CollectorServiceImpl implements CollectorService {
         }).orElse(false);
     }
 }
+*/
