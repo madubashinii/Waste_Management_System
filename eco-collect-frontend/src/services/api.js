@@ -1,8 +1,7 @@
 // src/services/api.js
 
-// Use environment variable or fallback to localhost
-const API_BASE_URL = import.meta.env?.VITE_API_BASE_URL ||
-                     'http://localhost:8081/api'; // Changed to 8081 to match your backend
+// Define API_BASE_URL at the top of the file
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
 
 console.log('API Base URL:', API_BASE_URL); // For debugging
 
@@ -31,8 +30,7 @@ class ApiService {
       const response = await fetch(url, config);
 
       if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       // Check if response has content

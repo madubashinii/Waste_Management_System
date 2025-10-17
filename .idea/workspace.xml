@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="646c041d-4e8b-4b93-8fd4-22d78a5204b5" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eco-collect-frontend/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/collector/controller/CollectorController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/collector/dto/CollectionUpdateRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/collector/dto/CollectorNotificationDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/collector/dto/CollectorRouteDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/collector/dto/CollectorRouteStopDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/collector/repository/CollectorBinCollectionRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/collector/repository/CollectorNotificationRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/collector/repository/CollectorRouteRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/collector/service/CollectorService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/collector/service/impl/CollectorServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/common/model/Role.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/controller/TestController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/common/dto/ApiResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/routes/controller/RouteController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/routes/controller/RouteStopController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/routes/controller/RouteWardController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/routes/dto/CreateRouteRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/routes/dto/CreateRouteStopRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/routes/dto/CreateRouteWardRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/routes/dto/RouteResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/routes/dto/RouteStopResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/routes/dto/RouteWardResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/routes/entity/Route.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/routes/entity/RouteStop.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/routes/entity/RouteWard.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/routes/repository/RouteRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/routes/repository/RouteStopRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/routes/repository/RouteWardRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/routes/service/RouteService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/routes/service/RouteStopService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/routes/service/RouteWardService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/routes/service/impl/RouteServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/routes/service/impl/RouteStopServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/routes/service/impl/RouteWardServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/trucks/controller/TruckController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/trucks/dto/CreateTruckRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/trucks/dto/TruckResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/trucks/entity/Truck.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/trucks/repository/TruckRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/trucks/service/TruckService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/trucks/service/impl/TruckServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/wards/controller/WardController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/wards/dto/CreateWardRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/wards/dto/WardResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/wards/entity/Ward.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/wards/repository/WardRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/wards/service/WardService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/wards/service/impl/WardServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/zones/controller/ZoneController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/zones/dto/CreateZoneRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/zones/dto/ZoneResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/zones/entity/Zone.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/zones/repository/ZoneRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/zones/service/ZoneService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/dispatcher/zones/service/impl/ZoneServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/login/controller/AuthController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/login/dto/SignInRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/login/dto/SignUpRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/login/dto/UserResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/login/entity/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/login/repository/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/login/service/AuthService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-backend/src/main/java/com/csse/ecocollectbackend/login/service/impl/AuthServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/eco-collect-frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/eco-collect-frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/eco-collect-frontend/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/assets/Waste management-pana.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/assets/react.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/auth/AuthComponents.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/collector/BinCard.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/collector/CollectorSidebar.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/collector/SummaryCard.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/collector/report/MessageBox.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/collector/report/ReportIssueForm.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/collector/report/ReportIssueSidebar.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/collector/route/CollectionDetails.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/collector/route/PerformanceSummary.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/collector/route/RouteStats.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/collector/route/StopList.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/common/Footer.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/common/Header.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/common/SnackBar.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/AddTruckModal.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/AssignCollectorTruckModal.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/DispatcherSidebar.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/PublishedRoutesCard.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/RouteStopsFilterBar.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/RouteStopsTable.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/TruckManagementModal.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/AddWardsModal.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/AddZoneModal.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/AllWardsAssignedDialog.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/RouteConflictModal.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/dataDisplay/EditRouteModal.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/dataDisplay/LoadingSpinner.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/dataDisplay/RouteStats.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/dataDisplay/RouteTableRow.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/dataDisplay/RoutesTable.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/dataDisplay/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/hooks/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/hooks/useConflictData.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/hooks/useWardManagement.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/hooks/useWardSelection.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/hooks/useZoneManagement.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/navigation/StepIndicator.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/navigation/StepNavigation.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/navigation/StepProgressBar.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/navigation/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/shared/AlternativeDates.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/shared/BaseModal.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/shared/ConflictData.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/shared/ErrorAlert.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/shared/LoadingButton.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/shared/WardCard.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/shared/WardForm.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/shared/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/shared/statusUtils.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/shared/validation.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/steps/DateZoneStep.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/steps/RouteNameStep.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/steps/RouteSummaryStep.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/steps/TruckAssignmentStep.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/steps/WardOrderingStep.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/steps/WardSelectionStep.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/components/dispatcher/routePlanner/steps/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/context/AuthContext.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/context/CollectorContext.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/data/mockBinsData.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/hooks/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/hooks/services/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/hooks/services/routeDataService.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/hooks/services/routePlannerService.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/hooks/useRouteData.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/hooks/useRoutePlanner.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/hooks/useStepNavigation.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/hooks/useWardAvailability.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/hooks/utils/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/hooks/utils/stepValidation.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/hooks/utils/useAsyncOperation.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/hooks/utils/useDataLoader.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/hooks/utils/useFormState.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/hooks/utils/useWardFiltering.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/pages/collector/BinCollection.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/pages/collector/CollectorDashboard.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/pages/collector/CollectorRoutes.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/pages/collector/CollectorRoutesWrapper.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/pages/collector/ReportIssue.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/pages/collector/RouteSummary.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/pages/collector/TodaysRoutes.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/pages/common/Home.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/pages/common/SignIn.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/pages/common/SignUp.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/pages/dispatcher/collectorAssignment.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/pages/dispatcher/dispatcherDashboard.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/pages/dispatcher/routePlanner.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/pages/dispatcher/routeStops.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/services/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/eco-collect-frontend/src/services/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/services/authService.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/services/collector/collectorService.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/services/dispatcher/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/services/dispatcher/routeService.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/services/dispatcher/routeStopService.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/services/dispatcher/routeStopUtils.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/services/dispatcher/routeWardService.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/services/dispatcher/truckService.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/services/dispatcher/wardService.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/services/dispatcher/zoneService.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/services/dispatcher/zoneWardService.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/services/userService.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/utils/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eco-collect-frontend/src/utils/wardUtils.js" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="342tm24C0d8zYipSYpyfU1RsUF3" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.EcoCollectBackendApplication.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "Merging feature/analytics-frontend",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Gayani Malalgoda/Waste_Management_System",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="EcoCollectBackendApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.csse.ecocollectbackend.EcoCollectBackendApplication" />
+      <module name="eco-collect-backend" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.csse.ecocollectbackend.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.EcoCollectBackendApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="646c041d-4e8b-4b93-8fd4-22d78a5204b5" name="Changes" comment="" />
+      <created>1760423649329</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1760423649329</updated>
+    </task>
+    <servers />
+  </component>
+</project>
