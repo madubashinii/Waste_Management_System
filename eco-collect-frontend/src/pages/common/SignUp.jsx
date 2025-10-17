@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Link , useNavigate } from 'react-router-dom';
-import { Input, Button, UserTypeSelector, AuthLayout } from '../components/auth/AuthComponents';
-import { signUp } from '../services/authService';
+import { Link, useNavigate } from 'react-router-dom';
+import { Input, Button, UserTypeSelector, AuthLayout } from '../../components/auth/AuthComponents';
+import { signUp } from '../../services/authService';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -121,3 +121,4 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
