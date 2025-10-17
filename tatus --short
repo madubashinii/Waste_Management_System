@@ -1,0 +1,40 @@
+[33m4ef9635[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/analytics-frontend[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/feature/analytics-frontend[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m Update README.md
+README.md
+[33m4f547da[m Create README.md
+README.md
+[33m2f05497[m Initial commit: add backend and frontend
+eco-collect-backend/.gitattributes
+eco-collect-backend/.gitignore
+eco-collect-backend/.mvn/wrapper/maven-wrapper.properties
+eco-collect-backend/mvnw
+eco-collect-backend/mvnw.cmd
+eco-collect-backend/pom.xml
+eco-collect-backend/src/main/java/com/csse/ecocollectbackend/EcoCollectBackendApplication.java
+eco-collect-backend/src/main/java/com/csse/ecocollectbackend/controller/TestController.java
+eco-collect-backend/src/main/resources/application.properties
+eco-collect-backend/src/test/java/com/csse/ecocollectbackend/EcoCollectBackendApplicationTests.java
+eco-collect-frontend/.gitignore
+eco-collect-frontend/.idea/.gitignore
+eco-collect-frontend/.idea/eco-collect-frontend.iml
+eco-collect-frontend/.idea/inspectionProfiles/Project_Default.xml
+eco-collect-frontend/.idea/misc.xml
+eco-collect-frontend/.idea/modules.xml
+eco-collect-frontend/.idea/runConfigurations.xml
+eco-collect-frontend/README.md
+eco-collect-frontend/package-lock.json
+eco-collect-frontend/package.json
+eco-collect-frontend/public/favicon.ico
+eco-collect-frontend/public/index.html
+eco-collect-frontend/public/logo192.png
+eco-collect-frontend/public/logo512.png
+eco-collect-frontend/public/manifest.json
+eco-collect-frontend/public/robots.txt
+eco-collect-frontend/src/App.css
+eco-collect-frontend/src/App.js
+eco-collect-frontend/src/App.test.js
+eco-collect-frontend/src/Test.js
+eco-collect-frontend/src/index.css
+eco-collect-frontend/src/index.js
+eco-collect-frontend/src/logo.svg
+eco-collect-frontend/src/reportWebVitals.js
+eco-collect-frontend/src/setupTests.js
