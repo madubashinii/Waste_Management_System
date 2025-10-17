@@ -1,14 +1,21 @@
 package com.csse.ecocollectbackend.resident.controller;
 
+import com.lowagie.text.Document;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import javax.swing.text.Document;
 import java.awt.*;
 import java.io.IOException;
 import java.io.OutputStream;
+
 
 
 @WebServlet("/resident.controller.DownloadInvoiceServlet")
