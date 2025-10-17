@@ -67,8 +67,8 @@ public class Bin {
     private String photoUrl;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", length = 20)
-    private CollectionStatus colstatus = CollectionStatus.PENDING;
+    @Column(name = "collection_status", length = 20)
+    private CollectionStatus collectionStatus  = CollectionStatus.PENDING;
 
     @Column(name = "remarks")
     private String remarks;

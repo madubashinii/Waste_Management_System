@@ -1,5 +1,3 @@
-/*
-// COMMENTED OUT - Collector functionality not in use currently
 package com.csse.ecocollectbackend.collector.controller;
 
 import com.csse.ecocollectbackend.collector.dto.CollectionUpdateRequest;
@@ -85,4 +83,3 @@ public class CollectorController {
         }
     }
 }
-*/

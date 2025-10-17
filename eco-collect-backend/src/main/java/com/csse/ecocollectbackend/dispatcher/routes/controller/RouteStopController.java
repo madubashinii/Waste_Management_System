@@ -29,7 +29,7 @@ public class RouteStopController {
         response.setStopId(routeStop.getStopId());
         response.setRouteId(routeStop.getRoute() != null ? routeStop.getRoute().getRouteId() : null);
         response.setCollectionDate(routeStop.getRoute() != null ? routeStop.getRoute().getCollectionDate() : null);
-        response.setBinId(routeStop.getBinId());
+        response.setBinId(routeStop.getBin() != null ? routeStop.getBin().getBinId() : null);
         response.setDriverId(routeStop.getDriver() != null ? routeStop.getDriver().getUserId() : null);
         response.setDriverName(routeStop.getDriver() != null ? routeStop.getDriver().getName() : null);
         response.setResidentId(routeStop.getResident() != null ? routeStop.getResident().getUserId() : null);
