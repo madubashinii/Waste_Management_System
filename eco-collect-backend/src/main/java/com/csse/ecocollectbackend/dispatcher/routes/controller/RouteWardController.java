@@ -4,9 +4,6 @@ import com.csse.ecocollectbackend.dispatcher.common.dto.ApiResponse;
 import com.csse.ecocollectbackend.dispatcher.routes.dto.CreateRouteWardRequest;
 import com.csse.ecocollectbackend.dispatcher.routes.dto.RouteWardResponse;
 import com.csse.ecocollectbackend.dispatcher.routes.service.RouteWardService;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,21 +12,29 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/route-wards")
-@RequiredArgsConstructor
 @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"})
 public class RouteWardController {
     
     private final RouteWardService routeWardService;
     
+    public RouteWardController(RouteWardService routeWardService) {
+        this.routeWardService = routeWardService;
+    }
+    
     @PostMapping
-    public ResponseEntity<ApiResponse<RouteWardResponse>> createRouteWard(@Valid @RequestBody CreateRouteWardRequest request) {
+    public ResponseEntity<ApiResponse<RouteWardResponse>> createRouteWard(@RequestBody CreateRouteWardRequest request) {
         try {
-            RouteWardResponse routeWard = routeWardService.createRouteWard(request);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(ApiResponse.success("Route ward created successfully", routeWard));
+            RouteWardResponse createdRouteWard = routeWardService.createRouteWard(request);
+            
+            // The route stops are automatically created in the service layer
+            // when a route ward is created
+            
+            return ResponseEntity.ok(new ApiResponse<>(true, 
+                "Route ward created successfully and route stops automatically generated", 
+                createdRouteWard));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ApiResponse.error("Failed to create route ward: " + e.getMessage()));
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, 
+                "Error creating route ward: " + e.getMessage(), null));
         }
     }
     
@@ -37,10 +42,9 @@ public class RouteWardController {
     public ResponseEntity<ApiResponse<List<RouteWardResponse>>> getRouteWardsByRouteId(@PathVariable Integer routeId) {
         try {
             List<RouteWardResponse> routeWards = routeWardService.getRouteWardsByRouteId(routeId);
-            return ResponseEntity.ok(ApiResponse.success("Route wards retrieved successfully", routeWards));
+            return ResponseEntity.ok(new ApiResponse<>(true, "Route wards retrieved successfully", routeWards));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("Failed to retrieve route wards: " + e.getMessage()));
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, "Error retrieving route wards: " + e.getMessage(), null));
         }
     }
     
@@ -48,32 +52,31 @@ public class RouteWardController {
     public ResponseEntity<ApiResponse<List<RouteWardResponse>>> getRouteWardsByDate(@PathVariable LocalDate date) {
         try {
             List<RouteWardResponse> routeWards = routeWardService.getRouteWardsByDate(date);
-            return ResponseEntity.ok(ApiResponse.success("Route wards for date retrieved successfully", routeWards));
+            return ResponseEntity.ok(new ApiResponse<>(true, "Route wards retrieved successfully", routeWards));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("Failed to retrieve route wards for date: " + e.getMessage()));
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, "Error retrieving route wards: " + e.getMessage(), null));
         }
     }
     
     @DeleteMapping("/route/{routeId}")
-    public ResponseEntity<ApiResponse<String>> deleteRouteWardsByRouteId(@PathVariable Integer routeId) {
+    public ResponseEntity<ApiResponse<Void>> deleteRouteWardsByRouteId(@PathVariable Integer routeId) {
         try {
             routeWardService.deleteRouteWardsByRouteId(routeId);
-            return ResponseEntity.ok(ApiResponse.success("Route wards deleted successfully"));
+            return ResponseEntity.ok(new ApiResponse<>(true, 
+                "Route wards and associated route stops deleted successfully", null));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ApiResponse.error("Failed to delete route wards: " + e.getMessage()));
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, "Error deleting route wards: " + e.getMessage(), null));
         }
     }
     
     @DeleteMapping("/{routeWardId}")
-    public ResponseEntity<ApiResponse<String>> deleteRouteWard(@PathVariable Integer routeWardId) {
+    public ResponseEntity<ApiResponse<Void>> deleteRouteWard(@PathVariable Integer routeWardId) {
         try {
             routeWardService.deleteRouteWard(routeWardId);
-            return ResponseEntity.ok(ApiResponse.success("Route ward deleted successfully"));
+            return ResponseEntity.ok(new ApiResponse<>(true, 
+                "Route ward and associated route stops deleted successfully", null));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ApiResponse.error("Failed to delete route ward: " + e.getMessage()));
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, "Error deleting route ward: " + e.getMessage(), null));
         }
     }
 }

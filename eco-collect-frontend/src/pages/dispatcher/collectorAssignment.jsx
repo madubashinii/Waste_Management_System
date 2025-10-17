@@ -17,32 +17,6 @@ import {
   HiOutlineCog,
 } from 'react-icons/hi';
 
-
-const TRUCKS = [
-  { truckId: 1, truckName: 'WM-Truck-101', truckType: 'Compactor Truck', capacityKg: 10000, status: 'Active', lastService: '2024-10-01' },
-  { truckId: 2, truckName: 'WM-Truck-207', truckType: 'Open Truck (Medium)', capacityKg: 7000, status: 'Active', lastService: '2024-09-28' },
-  { truckId: 3, truckName: 'WM-Truck-312', truckType: 'Small Tipper Truck', capacityKg: 5000, status: 'Active', lastService: '2024-10-05' },
-  { truckId: 4, truckName: 'WM-Truck-408', truckType: 'Tanker Truck', capacityKg: 12000, status: 'Active', lastService: '2024-09-25' },
-  { truckId: 5, truckName: 'WM-Truck-515', truckType: 'Mini Truck', capacityKg: 1500, status: 'Maintenance', lastService: '2024-10-10' },
-  { truckId: 6, truckName: 'WM-Truck-623', truckType: 'Flatbed Truck', capacityKg: 8000, status: 'Active', lastService: '2024-10-03' },
-  { truckId: 7, truckName: 'WM-Truck-734', truckType: 'Heavy Dump Truck', capacityKg: 15000, status: 'Active', lastService: '2024-09-30' },
-];
-
-// Routes data is now fetched by PublishedRoutesCard component
-
-const STATUS_COLORS = {
-  available: 'bg-emerald-100 text-emerald-800',
-  assigned: 'bg-blue-100 text-blue-800',
-  'on-leave': 'bg-gray-100 text-gray-800',
-  maintenance: 'bg-amber-100 text-amber-800',
-  unassigned: 'bg-red-100 text-red-800',
-  published: 'bg-green-100 text-green-800',
-  completed: 'bg-blue-100 text-blue-800',
-  Active: 'bg-emerald-100 text-emerald-800',
-  Maintenance: 'bg-amber-100 text-amber-800',
-  Inactive: 'bg-red-100 text-red-800',
-};
-
 // Reusable Components
 const FilterSection = ({ filters, onFilterChange, zones, zonesLoading, zonesError }) => (
   <div className="bg-white rounded-lg shadow-md p-6 mb-6">

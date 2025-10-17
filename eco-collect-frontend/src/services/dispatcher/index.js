@@ -10,6 +10,7 @@
  * - wardService: Core ward operations
  * - routeService: Core route operations
  * - routeWardService: Core route-ward operations
+ * - routeStopService: Core route-stop operations
  * - zoneWardService: Orchestrated zone-ward operations
  */
 
@@ -19,12 +20,13 @@ import { truckService } from './truckService.js';
 import { wardService } from './wardService.js';
 import { routeService } from './routeService.js';
 import { routeWardService } from './routeWardService.js';
+import { routeStopService } from './routeStopService.js';
 
 // Orchestration services
 import { zoneWardService } from './zoneWardService.js';
 
 // Re-export services
-export { zoneService, truckService, wardService, routeService, routeWardService, zoneWardService };
+export { zoneService, truckService, wardService, routeService, routeWardService, routeStopService, zoneWardService };
 
 /**
  * Service factory for dependency injection
@@ -37,6 +39,7 @@ export class DispatcherServiceFactory {
     this.wardService = dependencies.wardService || wardService;
     this.routeService = dependencies.routeService || routeService;
     this.routeWardService = dependencies.routeWardService || routeWardService;
+    this.routeStopService = dependencies.routeStopService || routeStopService;
     this.zoneWardService = dependencies.zoneWardService || zoneWardService;
   }
 
@@ -51,6 +54,7 @@ export class DispatcherServiceFactory {
       wardService: this.wardService,
       routeService: this.routeService,
       routeWardService: this.routeWardService,
+      routeStopService: this.routeStopService,
       zoneWardService: this.zoneWardService
     };
   }
@@ -90,6 +94,12 @@ export class DispatcherServiceFactory {
       results.routeWardService = await this.routeWardService.checkBackendConnection?.() || { connected: false };
     } catch {
       results.routeWardService = { connected: false };
+    }
+
+    try {
+      results.routeStopService = await this.routeStopService.checkBackendConnection?.() || { connected: false };
+    } catch {
+      results.routeStopService = { connected: false };
     }
 
     results.zoneWardService = { connected: true }; // This service orchestrates others
