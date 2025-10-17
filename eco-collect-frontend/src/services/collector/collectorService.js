@@ -1,66 +1,92 @@
-export const getTodaysRoutes = async () => {
-    return [
-        {
-            id: 1,
-            routeName: 'Route A',
-            zone: 'Zone 1',
-            date: '2025-10-15',
-            status: 'Pending',
-            bins: [
-                { id: 101, location: 'Street 1', status: 'Pending', order: 1 },
-                { id: 102, location: 'Street 2', status: 'Pending', order: 2 }
-            ]
-        },
-        {
-            id: 2,
-            routeName: 'Route B',
-            zone: 'Zone 2',
-            date: '2025-10-15',
-            status: 'Pending',
-            bins: [
-                { id: 201, location: 'Street 3', status: 'Pending', order: 1 },
-                { id: 202, location: 'Street 4', status: 'Pending', order: 2 }
-            ]
-        }
-    ];
+import API from "../api";
+
+// === Fetch today's routes ===
+export const getTodayRoutes = async (collectorId) => {
+    try {
+        const res = await API.get(`/collector/${collectorId}/routes/today`);
+        console.log("API /routes/today response:", res.data);
+        return res.data;
+    } catch (err) {
+        console.error("Error in getTodayRoutes:", err);
+        return [];
+    }
 };
 
-export const markBinCollected = async (binId) => {
-    return { success: true, binId };
+// === Fetch notifications ===
+export const getNotifications = async (collectorId) => {
+    try {
+        const res = await API.get(`/collector/${collectorId}/notifications`);
+        console.log("API /notifications response:", res.data);
+        return res.data;
+    } catch (err) {
+        console.error("Error in getNotifications:", err);
+        return [];
+    }
 };
 
-export const reportIssue = async (data) => {
-    return { success: true, ...data };
+// === Mark bin collected ===
+export const markBinCollected = async ({binId, routeId, collectorId, weight}) => {
+    try {
+        const res = await API.post(`/collector/collections/mark`, {
+            binId,
+            routeId,
+            collectorId,
+            weight,
+            status: "COLLECTED",
+        });
+        console.log("markBinCollected success:", res.data);
+        return true;
+    } catch (err) {
+        console.error("Error in markBinCollected:", err);
+        return false;
+    }
 };
 
-export const getRouteSummary = async () => {
-    return { totalRoutes: 2, binsCollected: 1, missed: 1, overflow: 0 };
+// === Report bin issue ===
+export const reportBinIssue = async ({routeId, binId, collectorId, note}) => {
+    try {
+        const res = await API.post(`/collector/collections/report-issue`, {
+            routeId,
+            binId,
+            collectorId,
+            note,
+        });
+        console.log("reportBinIssue success:", res.data);
+        return true;
+    } catch (err) {
+        console.error("Error in reportBinIssue:", err);
+        return false;
+    }
 };
 
-//
-// import API_BASE_URL from "../api"
-// import axios from 'axios';
-//
-// export const getTodaysRoutes = async (collectorId) => {
-//     try {
-//         const response = await axios.get(`${API_BASE_URL}/collector/routes`, {
-//             params: { collectorId },
-//         });
-//         return response.data;
-//     } catch (error) {
-//         console.error("Error fetching routes:", error);
-//         throw error;
-//     }
-// };
-//
-// export const markBinCollected = async (stopId, collectedWeight) => {
-//     try {
-//         const response = await axios.post(`${API_BASE_URL}/collector/route-stops/${stopId}/collect`, {
-//             collectedWeight,
-//         });
-//         return response.data;
-//     } catch (error) {
-//         console.error("Error marking bin collected:", error);
-//         throw error;
-//     }
-// };
+// Mark notification as read
+export const markNotificationRead = async (notificationId) => {
+    try {
+        const res = await API.post(`/collector/notifications/${notificationId}/read`);
+        console.log("markNotificationRead success:", res.data);
+        return true;
+    } catch (err) {
+        console.error("Error in markNotificationRead:", err);
+        return false;
+    }
+};
+
+export const markBinCollectedWithPhoto = async ({binId, routeId, collectorId, weight, photo}) => {
+    try {
+        const formData = new FormData();
+        formData.append("binId", binId);
+        formData.append("routeId", routeId);
+        formData.append("collectorId", collectorId);
+        formData.append("weightKg", weight);
+        formData.append("status", "COLLECTED");
+        if (photo) formData.append("photo", photo);
+
+        const res = await API.post(`/collector/collections/mark`, formData, {
+            headers: { "Content-Type": "multipart/form-data" }
+        });
+        return true;
+    } catch (err) {
+        console.error("Error in markBinCollectedWithPhoto:", err);
+        return false;
+    }
+};
