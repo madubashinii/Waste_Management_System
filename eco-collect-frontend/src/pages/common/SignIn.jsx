@@ -29,16 +29,11 @@ const SignIn = () => {
       const response = await signIn(payload);
       console.log('Login success:', response.data);
 
-      // Store user in auth context
-      login(response.data);
-
       alert(`Welcome, ${response.data.name}!`);
 
       // Navigate based on role
       if (response.data.role === 'Collector') {
         navigate('/collector/dashboard');
-      } else if (response.data.role === 'Dispatcher') {
-        navigate('/dispatcher/dashboard');
       } else {
         navigate('/');
       }
@@ -123,4 +118,3 @@ const SignIn = () => {
 };
 
 export default SignIn;
-

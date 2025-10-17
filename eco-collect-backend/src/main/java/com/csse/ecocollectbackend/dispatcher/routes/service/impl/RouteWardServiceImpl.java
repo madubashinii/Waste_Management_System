@@ -9,6 +9,7 @@ import com.csse.ecocollectbackend.dispatcher.routes.repository.RouteRepository;
 import com.csse.ecocollectbackend.dispatcher.routes.repository.RouteWardRepository;
 import com.csse.ecocollectbackend.dispatcher.routes.repository.RouteStopRepository;
 import com.csse.ecocollectbackend.dispatcher.routes.service.RouteWardService;
+import com.csse.ecocollectbackend.resident.entity.Bin;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,7 +64,9 @@ public class RouteWardServiceImpl implements RouteWardService {
         for (String binId : binIds) {
             RouteStop routeStop = new RouteStop();
             routeStop.setRoute(routeWard.getRoute());
-            routeStop.setBinId(binId);
+            Bin bin = new Bin();
+            bin.setBinId(String.valueOf(Integer.valueOf(binId)));
+            routeStop.setBin(bin);
             routeStop.setStopOrder(stopOrder);
             routeStop.setCollected(false);
             routeStop.setStatus(RouteStop.StopStatus.PENDING);

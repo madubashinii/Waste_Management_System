@@ -1,5 +1,7 @@
+
 package com.csse.ecocollectbackend.collector.repository;
 
+import com.csse.ecocollectbackend.resident.entity.Bin;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

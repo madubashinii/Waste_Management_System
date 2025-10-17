@@ -1,3 +1,4 @@
+
 package com.csse.ecocollectbackend.collector.dto;
 
 import lombok.AllArgsConstructor;

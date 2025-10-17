@@ -14,16 +14,24 @@ import FollowupManagement from './pages/dispatcher/FollowupManagement';
 import Reports from './pages/dispatcher/Reports';
 import DispatcherSidebar from './components/dispatcher/DispatcherSidebar';
 import CollectorRoutesWrapper from './pages/collector/CollectorRoutesWrapper';
+import ResidentRoutesWrapper from './pages/resident/ResidentRoutesWrapper';
 
-/**
- * Layout wrapper for common pages with Header and Footer
- */
+// Analytics Pages
+import Dashboard from './pages/Dashboard';
+import Pricing from './pages/Analytics/Pricing';
+import CityConfig from './pages/Analytics/CityConfig';
+import Billing from './pages/Analytics/Billing';
+import Reports from './pages/Analytics/Reports';
+
+// Common Layout Component
 const CommonLayout = ({ children }) => (
-    <>
-        <Header />
-        {children}
-        <Footer />
-    </>
+  <>
+    <Header />
+    <main className="flex-grow">
+      {children}
+    </main>
+    <Footer />
+  </>
 );
 
 /**

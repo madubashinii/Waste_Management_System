@@ -85,13 +85,27 @@ export default function CollectorSidebar() {
                     </ul>
                 </nav>
 
-                {/* Footer */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-emerald-700">
-                    <div className="bg-emerald-700/50 rounded-lg p-3">
+
+                {/* Footer + Logout */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-emerald-700 space-y-2">
+
+                    {/* Logout Button */}
+                    <button
+                        onClick={() => {
+                            window.location.href = '/login';
+                        }}
+                        className="w-full flex items-center gap-2 justify-center py-2 px-4 border border-emerald-400 hover:bg-emerald-700/70 text-white font-medium rounded-lg shadow transition-colors"
+                    >
+                        <Trash2 className="w-5 h-5"/> Logout
+                    </button>
+
+                    {/* Footer Info */}
+                    <div className="bg-emerald-700/50 rounded-lg p-3 text-center">
                         <p className="text-xs text-emerald-200 font-medium">Collector Portal</p>
                         <p className="text-xs text-emerald-300 mt-1">Version 1.0</p>
                     </div>
                 </div>
+
             </div>
         </>
     );

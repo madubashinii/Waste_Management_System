@@ -1,3 +1,4 @@
+
 package com.csse.ecocollectbackend.collector.service.impl;
 
 
@@ -5,11 +6,14 @@ import com.csse.ecocollectbackend.collector.dto.CollectionUpdateRequest;
 import com.csse.ecocollectbackend.collector.dto.CollectorNotificationDTO;
 import com.csse.ecocollectbackend.collector.dto.CollectorRouteDTO;
 import com.csse.ecocollectbackend.collector.dto.CollectorRouteStopDTO;
+import com.csse.ecocollectbackend.collector.entity.Notification;
 import com.csse.ecocollectbackend.collector.repository.CollectorBinCollectionRepository;
 import com.csse.ecocollectbackend.collector.repository.CollectorNotificationRepository;
 import com.csse.ecocollectbackend.collector.repository.CollectorRouteRepository;
 import com.csse.ecocollectbackend.collector.service.CollectorService;
+import com.csse.ecocollectbackend.dispatcher.routes.entity.Route;
 import com.csse.ecocollectbackend.login.entity.User;
+import com.csse.ecocollectbackend.resident.entity.Bin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,7 +70,7 @@ public class CollectorServiceImpl implements CollectorService {
             bin.setPhotoUrl(request.getPhotoUrl());      // save photo URL
             bin.setRemarks(request.getRemarks());
             bin.setCollectedAt(LocalDateTime.now());
-            bin.setStatus(Bin.CollectionStatus.valueOf(request.getStatus().toUpperCase()));
+            bin.setCollectionStatus(Bin.CollectionStatus.valueOf(request.getStatus().toUpperCase()));
 
             collectorBinCollectionRepository.save(bin);
         } else {
@@ -77,7 +81,7 @@ public class CollectorServiceImpl implements CollectorService {
             collection.setPhotoUrl(request.getPhotoUrl());
             collection.setRemarks(request.getRemarks());
             collection.setCollectedAt(LocalDateTime.now());
-            collection.setStatus(Bin.CollectionStatus.valueOf(request.getStatus().toUpperCase()));
+            collection.setCollectionStatus(Bin.CollectionStatus.valueOf(request.getStatus().toUpperCase()));
 
             Route route = new Route();
             route.setRouteId(request.getRouteId());
@@ -117,7 +121,7 @@ public class CollectorServiceImpl implements CollectorService {
             collection.setCollector(collector);
         }
 
-        collection.setStatus(Bin.CollectionStatus.valueOf(request.getStatus().toUpperCase()));
+        collection.setCollectionStatus(Bin.CollectionStatus.valueOf(request.getStatus().toUpperCase()));
         collection.setRemarks(request.getRemarks());
         collection.setCollectedAt(LocalDateTime.now());
 

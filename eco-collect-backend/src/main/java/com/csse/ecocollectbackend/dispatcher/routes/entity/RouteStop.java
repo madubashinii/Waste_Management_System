@@ -1,6 +1,7 @@
 package com.csse.ecocollectbackend.dispatcher.routes.entity;
 
 import com.csse.ecocollectbackend.login.entity.User;
+import com.csse.ecocollectbackend.resident.entity.Bin;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,9 +25,10 @@ public class RouteStop {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "route_id", nullable = false)
     private Route route;
-    
-    @Column(name = "bin_id", nullable = false)
-    private String binId;
+
+    @ManyToOne
+    @JoinColumn(name = "bin_id")
+    private Bin bin;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "driver_id")
