@@ -77,5 +77,5 @@ public class BinController {
     }
 
     // DTO class to only expose binId and status
-    public record BinDTO(Integer binId, String status) {}
+    public record BinDTO(String binId, String status) {}
 }

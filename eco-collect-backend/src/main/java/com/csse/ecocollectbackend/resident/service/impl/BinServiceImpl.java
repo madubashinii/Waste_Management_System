@@ -39,15 +39,15 @@ public class BinServiceImpl implements BinService {
             switch (bin.getBinType()) {
                 case Recyclable -> {
                     plasticCount++;
-                    plasticBinIds.add(bin.getBinId());
+                    plasticBinIds.add(Integer.valueOf(bin.getBinId()));
                 }
                 case Organic -> {
                     organicCount++;
-                    organicBinIds.add(bin.getBinId());
+                    organicBinIds.add(Integer.valueOf(bin.getBinId()));
                 }
                 case General -> {
                     generalCount++;
-                    generalBinIds.add(bin.getBinId());
+                    generalBinIds.add(Integer.valueOf(bin.getBinId()));
                 }
             }
         }

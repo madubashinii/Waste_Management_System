@@ -25,9 +25,37 @@ public class Bin {
     @JoinColumn(name = "route_id", nullable = false)
     private Route route;
 
+    @ManyToOne
+    @JoinColumn(name = "resident_id")
+    private User resident;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "zone_id")
+    private Zone zone;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "collector_id", nullable = false)
     private User collector;
+
+    @Column
+    private String location;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "bin_type")
+    private BinType binType;
+
+    @Column(name = "created_at", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime createdAt;
+
+    @Column(name = "qr_code", unique = true)
+    private String qrCode;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private BinStatus status = BinStatus.Active;
+
+    public enum BinType { General, Recyclable, Organic }
+    public enum BinStatus { Active, Inactive, Missing }
 
     @Column(name = "collected_at")
     private LocalDateTime collectedAt;
@@ -40,7 +68,7 @@ public class Bin {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 20)
-    private CollectionStatus status = CollectionStatus.PENDING;
+    private CollectionStatus colstatus = CollectionStatus.PENDING;
 
     @Column(name = "remarks")
     private String remarks;
