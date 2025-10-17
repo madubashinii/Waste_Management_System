@@ -11,7 +11,7 @@ import RoutePlanner from './pages/dispatcher/routePlanner';
 import RouteStops from './pages/dispatcher/routeStops';
 import CollectorAssignment from './pages/dispatcher/collectorAssignment';
 import CollectorRoutesWrapper from './pages/collector/CollectorRoutesWrapper';
-
+import ResidentRoutesWrapper from './pages/resident/ResidentRoutesWrapper';
 
 function App() {
     return (
@@ -33,7 +33,7 @@ function App() {
                         {/* Collector Pages */}
                         <Route path="/collector/*" element={<CollectorRoutesWrapper />} />
 
-                        {/* Collector Pages */}
+                        {/* Resident Pages */}
                         <Route path="/resident/*" element={<ResidentRoutesWrapper />} />
 
                         {/* Redirect unknown paths */}
