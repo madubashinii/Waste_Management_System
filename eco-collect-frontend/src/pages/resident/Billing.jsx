@@ -1,59 +1,53 @@
 import React, { useEffect, useState } from "react";
-import InvoicePage from "./InvoicePage";
+import { useNavigate } from "react-router-dom";
 
-const Billing = () => {
-  const [paidRequests, setPaidRequests] = useState([]);
-  const [selectedRequest, setSelectedRequest] = useState(null);
+const BillingList = ({ residentId }) => {
+  const [billings, setBillings] = useState([]);
+  const [filterStatus, setFilterStatus] = useState("all"); // all, processed, unpaid, paid
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("/api/requests/paid")
+    let url = `/api/billing/resident/${residentId}`;
+    if (filterStatus !== "all") url += `?status=${filterStatus}`;
+    fetch(url)
       .then(res => res.json())
-      .then(data => setPaidRequests(data));
-  }, []);
+      .then(data => setBillings(data));
+  }, [residentId, filterStatus]);
 
-  const handleView = (requestId) => {
-    fetch(`/api/requests/${requestId}`)
-      .then(res => res.json())
-      .then(data => setSelectedRequest(data));
+  const handlePay = (invoiceId) => {
+    navigate(`/payment/${invoiceId}`);
   };
 
-  if (selectedRequest) {
-    return (
-      <div>
-        <button
-          className="btn btn-outline-secondary mb-3"
-          onClick={() => setSelectedRequest(null)}
-        >
-          <i className="fa-solid fa-arrow-left"></i> Back
-        </button>
-        <InvoicePage
-          invoiceId={selectedRequest.invoiceId}
-          userName={selectedRequest.userName}
-          address={selectedRequest.address}
-          itemTypes={selectedRequest.itemTypes}
-          quantities={selectedRequest.quantities}
-          totals={selectedRequest.totals}
-          grandTotal={selectedRequest.grandTotal}
-        />
-      </div>
-    );
-  }
+  const processedStatuses = ["draft", "approved", "sent"];
 
   return (
     <div>
-      <h4 className="mb-4">Paid Requests</h4>
-      {paidRequests.length === 0 ? (
-        <p>No paid requests found.</p>
+      <h4>Billing Records</h4>
+
+      <div className="mb-3">
+        <button className="btn btn-outline-primary me-2" onClick={() => setFilterStatus("all")}>All</button>
+        <button className="btn btn-outline-secondary me-2" onClick={() => setFilterStatus("processed")}>Processed</button>
+        <button className="btn btn-outline-success me-2" onClick={() => setFilterStatus("unpaid")}>Unpaid</button>
+        <button className="btn btn-outline-info me-2" onClick={() => setFilterStatus("paid")}>Paid</button>
+      </div>
+
+      {billings.length === 0 ? (
+        <p>No billing records found.</p>
       ) : (
         <ul className="list-group">
-          {paidRequests.map((req) => (
-            <li key={req.id} className="list-group-item d-flex justify-content-between align-items-center">
+          {billings.map(bill => (
+            <li key={bill.invoiceId} className="list-group-item d-flex justify-content-between align-items-center">
               <div>
-                <strong>{req.invoiceId}</strong> &mdash; {new Date(req.date).toLocaleDateString()}
+                <strong>{bill.invoiceId}</strong> — {bill.residentName} — {bill.status} — ${bill.amount}
               </div>
-              <button className="btn btn-sm btn-success" onClick={() => handleView(req.id)}>
-                View
-              </button>
+              {bill.status === "unpaid" && (
+                  <div>
+                  <strong>{bill.dueDate}</strong>
+                <button className="btn btn-sm btn-warning" onClick={() => handlePay(bill.invoiceId)}>
+                  Pay Now
+                </button>
+                </div>
+              )}
             </li>
           ))}
         </ul>
@@ -62,4 +56,4 @@ const Billing = () => {
   );
 };
 
-export default Billing;
+export default BillingList;

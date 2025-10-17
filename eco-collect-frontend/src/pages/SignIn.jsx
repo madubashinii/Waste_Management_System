@@ -33,10 +33,10 @@ const SignIn = () => {
       if (response.data.role === 'Collector') {
         navigate('/collector/dashboard');
       }
-      else if(response.data.role === 'resident') {
-          navigate('/resident/client_dashboard');
+      else if(response.data.role === 'Resident') {
+          navigate('/resident/dashboard');
       }
-      }else {
+      else {
         navigate('/');
       }
     } catch (err) {

@@ -7,6 +7,8 @@ import com.csse.ecocollectbackend.resident.service.BinService;
 import com.csse.ecocollectbackend.login.entity.User;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,7 +22,6 @@ public class BinServiceImpl implements BinService {
 
     @Override
     public BinSummary getSummaryByUserId(Integer userId) {
-        // Fetch bins belonging to the user
         User user = new User();
         user.setUserId(userId);
 
@@ -30,15 +31,43 @@ public class BinServiceImpl implements BinService {
         int organicCount = 0;
         int generalCount = 0;
 
+        List<Integer> plasticBinIds = new ArrayList<>();
+        List<Integer> organicBinIds = new ArrayList<>();
+        List<Integer> generalBinIds = new ArrayList<>();
+
         for (Bin bin : bins) {
             switch (bin.getBinType()) {
-                case Recyclable -> plasticCount++;
-                case Organic -> organicCount++;
-                case General -> generalCount++;
+                case Recyclable -> {
+                    plasticCount++;
+                    plasticBinIds.add(bin.getBinId());
+                }
+                case Organic -> {
+                    organicCount++;
+                    organicBinIds.add(bin.getBinId());
+                }
+                case General -> {
+                    generalCount++;
+                    generalBinIds.add(bin.getBinId());
+                }
             }
         }
 
-        return new BinSummary(plasticCount, organicCount, generalCount);
+        return new BinSummary(plasticCount, organicCount, generalCount,
+                plasticBinIds, organicBinIds, generalBinIds);
+    }
+
+
+    @Override
+    public Bin registerBin(Bin bin, User resident) {
+        bin.setResident(resident);
+        bin.setStatus(Bin.BinStatus.Active);
+        bin.setCreatedAt(LocalDateTime.now());
+        return binRepository.save(bin);
+    }
+
+    @Override
+    public List<Bin> getBinsByResident(User resident) {
+        return binRepository.findByResident(resident);
     }
 }
 

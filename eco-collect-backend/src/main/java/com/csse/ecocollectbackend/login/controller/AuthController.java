@@ -21,19 +21,39 @@ public class AuthController {
     public UserResponse signUp(@RequestBody SignUpRequest request) {
         return authService.signUp(request);
     }
-
+    /*
     @PostMapping("/signin")
     public UserResponse signIn(@RequestBody SignInRequest request) {
         return authService.signIn(request);
+    }
+    */
+    @PostMapping("/signin")
+    public UserResponse signIn(@RequestBody SignInRequest request, HttpSession session) {
+        // Call your existing service
+        UserResponse user = authService.signIn(request);
+
+        // Store userId in session
+        session.setAttribute("userId", user.getUserId());
+
+        // Return the same UserResponse as before
+        return user;
     }
 
     @GetMapping("/profile")
     public UserResponse getProfile(HttpSession session) {
         UserResponse user = (UserResponse) session.getAttribute("loggedUser");
-        if (user == null) {
-            throw new RuntimeException("User not logged in");
-        }
+        if (user == null) throw new RuntimeException("User not logged in");
         return user;
+    }
+
+    @PutMapping("/profile")
+    public UserResponse updateProfile(@RequestBody UserResponse updatedUser, HttpSession session) {
+        UserResponse user = (UserResponse) session.getAttribute("loggedUser");
+        if (user == null) throw new RuntimeException("User not logged in");
+
+        UserResponse savedUser = authService.updateProfile(user.getUserId(), updatedUser);
+        session.setAttribute("loggedUser", savedUser); // update session
+        return savedUser;
     }
 
     @PostMapping("/logout")

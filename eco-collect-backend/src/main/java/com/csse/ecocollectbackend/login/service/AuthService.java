@@ -7,4 +7,6 @@ import com.csse.ecocollectbackend.login.dto.UserResponse;
 public interface AuthService {
     UserResponse signUp(SignUpRequest request);
     UserResponse signIn(SignInRequest request);
+
+    UserResponse updateProfile(Integer userId, UserResponse updatedUser);
 }

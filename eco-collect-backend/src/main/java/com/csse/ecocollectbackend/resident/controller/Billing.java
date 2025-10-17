@@ -28,7 +28,7 @@ public class Billing {
 
         List<RequestDTO> requests = requestService.getPaidRequestsByUserId(userId);
 
-        // Example RequestDTO: { id, date, invoiceId, totalAmount }
+        //  RequestDTO: { id, date, invoiceId, totalAmount }
         return ResponseEntity.ok(requests);
     }
 

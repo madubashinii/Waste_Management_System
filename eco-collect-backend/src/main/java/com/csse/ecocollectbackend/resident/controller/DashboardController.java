@@ -26,26 +26,18 @@ public class DashboardController {
     public ResponseEntity<?> getDashboardData(
             @SessionAttribute(name = "userId", required = false) Integer userId) {
 
-        if (userId == null) {
-            return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
-        }
-
-        // fetch user info
-        User user = userService.getUserById(userId);
-
-        // fetch bin summary
-        BinSummary summary = binService.getSummaryByUserId(userId);
-
+        // skip auth check since mock data is used
         return ResponseEntity.ok(
                 Map.of(
-                        "userName", user.getName(),
+                        "userName", "Mock User",
                         "binSummary", Map.of(
-                                "plasticCount", summary.getPlasticCount(),
-                                "organicCount", summary.getOrganicCount(),
-                                "generalCount", summary.getGeneralCount()
+                                "plasticCount", 10,
+                                "organicCount", 5,
+                                "generalCount", 8
                         )
                 )
         );
     }
+
 }
 

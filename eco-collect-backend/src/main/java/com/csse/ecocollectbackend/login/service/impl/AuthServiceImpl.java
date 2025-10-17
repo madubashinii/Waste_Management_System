@@ -44,4 +44,19 @@ public class AuthServiceImpl implements AuthService {
 
         return new UserResponse(user.getUserId(), user.getName(), user.getEmail(), user.getRole());
     }
+
+    @Override
+    public UserResponse updateProfile(Integer userId, UserResponse updatedUser) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setName(updatedUser.getName());
+        // user.setEmail(updatedUser.getEmail());
+        // user.setPhone(updatedUser.getPhone());
+        // user.setZone(updatedUser.getZone());
+
+        userRepository.save(user);
+
+        return new UserResponse(user.getUserId(), user.getName(), user.getEmail(), user.getRole());
+    }
 }

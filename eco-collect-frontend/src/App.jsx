@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import CollectorRoutesWrapper from './pages/collector/CollectorRoutesWrapper';
-
+import ResidentRoutesWrapper from './pages/resident/ResidentRoutesWrapper';
 
 function App() {
     return (
@@ -22,6 +22,9 @@ function App() {
 
                         {/* Collector Pages */}
                         <Route path="/collector/*" element={<CollectorRoutesWrapper />} />
+
+                        {/* Collector Pages */}
+                        <Route path="/resident/*" element={<ResidentRoutesWrapper />} />
 
                         {/* Redirect unknown paths */}
                         <Route path="*" element={<Navigate to="/" replace />} />
