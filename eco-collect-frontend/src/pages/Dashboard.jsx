@@ -10,7 +10,6 @@ function Dashboard() {
     { path: '/city-config', label: 'CITY CONFIG' },
     { path: '/billing', label: 'BILLING' },
     { path: '/reports', label: 'REPORTS' },
-    { path: '/imports', label: 'IMPORTS' },
   ];
 
   return (
