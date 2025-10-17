@@ -16,7 +16,7 @@ public class RouteStopResponse {
     private Integer stopId;
     private Integer routeId;
     private LocalDate collectionDate;
-    private Integer binId;
+    private String binId;
     private Integer driverId;
     private String driverName;
     private Integer residentId;

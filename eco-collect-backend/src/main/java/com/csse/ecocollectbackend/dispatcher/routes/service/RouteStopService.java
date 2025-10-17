@@ -22,7 +22,7 @@ public interface RouteStopService {
     
     List<RouteStop> getRouteStopsByDriverIdAndStatus(Integer driverId, RouteStop.StopStatus status);
     
-    List<RouteStop> getRouteStopsByBinId(Integer binId);
+    List<RouteStop> getRouteStopsByBinId(String binId);
     
     List<RouteStop> getRouteStopsByStatus(RouteStop.StopStatus status);
     
@@ -36,7 +36,7 @@ public interface RouteStopService {
     
     List<RouteStop> getRouteStopsByArrivedAtBetween(LocalDateTime startTime, LocalDateTime endTime);
     
-    Optional<RouteStop> getRouteStopByRouteIdAndBinId(Integer routeId, Integer binId);
+    Optional<RouteStop> getRouteStopByRouteIdAndBinId(Integer routeId, String binId);
     
     Long countRouteStopsByRouteId(Integer routeId);
     

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class CreateRouteStopRequest {
     
     private Integer routeId;
-    private Integer binId;
+    private String binId;
     private Integer driverId;
     private Integer residentId;
     private Integer stopOrder;

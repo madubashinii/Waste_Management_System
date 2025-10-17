@@ -1,3 +1,5 @@
+/*
+// COMMENTED OUT - Collector functionality not in use currently
 package com.csse.ecocollectbackend.collector.dto;
 
 import lombok.AllArgsConstructor;
@@ -16,3 +18,4 @@ public class CollectionUpdateRequest {
     private Integer routeId;
     private Integer collectorId;
 }
+*/
