@@ -1,4 +1,12 @@
-export default function PerformanceSummary({ route }) {
+export default function PerformanceSummary({route}) {
+    if (!route || !route.stops) {
+        return (
+            <div className="min-h-40 flex items-center justify-center text-gray-500">
+                Loading performance data...
+            </div>
+        );
+    }
+
     const collected = route.stops.filter(s => s.collected).length;
     const totalWeight = route.stops.filter(s => s.collected && s.weight).reduce((sum, s) => sum + s.weight, 0);
     const completionRate = Math.round((collected / route.stops.length) * 100);
