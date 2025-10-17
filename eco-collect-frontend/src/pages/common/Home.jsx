@@ -1,6 +1,6 @@
 import { HiOutlineLocationMarker, HiOutlineCalendar } from 'react-icons/hi';
 import { IoLeafOutline } from 'react-icons/io5';
-import WasteManagementSvg from '../assets/Waste management-pana.svg';
+import WasteManagementSvg from '../../assets/Waste management-pana.svg';
 
 const FEATURES = [
   {

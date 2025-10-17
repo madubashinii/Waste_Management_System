@@ -33,3 +33,8 @@ body {
 .animate-spin-slow {
   animation: spin-slow 8s linear infinite;
 }
+
+/* Custom hover effect for ward selection */
+.hover\:bg-emerald-25:hover {
+  background-color: rgba(16, 185, 129, 0.05);
+}
