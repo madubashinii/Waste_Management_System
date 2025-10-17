@@ -1,5 +1,6 @@
 package com.csse.ecocollectbackend.collector.repository;
 
+import com.csse.ecocollectbackend.dispatcher.routes.entity.Route;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

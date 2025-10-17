@@ -1,5 +1,6 @@
 package com.csse.ecocollectbackend.collector.repository;
 
+import com.csse.ecocollectbackend.collector.entity.Notification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

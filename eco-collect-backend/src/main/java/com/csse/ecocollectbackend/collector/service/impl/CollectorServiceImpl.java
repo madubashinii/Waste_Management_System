@@ -9,7 +9,9 @@ import com.csse.ecocollectbackend.collector.repository.CollectorBinCollectionRep
 import com.csse.ecocollectbackend.collector.repository.CollectorNotificationRepository;
 import com.csse.ecocollectbackend.collector.repository.CollectorRouteRepository;
 import com.csse.ecocollectbackend.collector.service.CollectorService;
+import com.csse.ecocollectbackend.dispatcher.routes.entity.Route;
 import com.csse.ecocollectbackend.login.entity.User;
+import com.csse.ecocollectbackend.resident.entity.Bin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,69 +1,54 @@
 package com.csse.ecocollectbackend.resident.entity;
 
+import com.csse.ecocollectbackend.dispatcher.routes.entity.Route;
 import com.csse.ecocollectbackend.login.entity.User;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
 @Entity
 @Table(name = "bins")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Bin {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "bin_id")
-    private Integer binId;
+    @Column(name = "bin_id", nullable = false)
+    private String binId;
 
-    @ManyToOne
-    @JoinColumn(name = "resident_id")
-    private User resident;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "route_id", nullable = false)
+    private Route route;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "zone_id")
-    private Zone zone;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "collector_id", nullable = false)
+    private User collector;
 
-    @Column
-    private String location;
+    @Column(name = "collected_at")
+    private LocalDateTime collectedAt;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "bin_type")
-    private BinType binType;
+    @Column(name = "weight_kg")
+    private Double weightKg;
 
-    @Column(name = "qr_code", unique = true)
-    private String qrCode;
+    @Column(name = "photo_url")
+    private String photoUrl;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    private BinStatus status = BinStatus.Active;
+    @Column(name = "status", length = 20)
+    private CollectionStatus status = CollectionStatus.PENDING;
 
-    @Column(name = "created_at", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime createdAt;
+    @Column(name = "remarks")
+    private String remarks;
 
-    public enum BinType { General, Recyclable, Organic }
-    public enum BinStatus { Active, Inactive, Missing }
-
-    // Getters and setters
-    public Integer getBinId() { return binId; }
-    public void setBinId(Integer binId) { this.binId = binId; }
-
-    public User getResident() { return resident; }
-    public void setResident(User resident) { this.resident = resident; }
-
-    public Zone getZone() { return zone; }
-    public void setZone(Zone zone) { this.zone = zone; }
-
-    public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
-
-    public BinType getBinType() { return binType; }
-    public void setBinType(BinType binType) { this.binType = binType; }
-
-    public String getQrCode() { return qrCode; }
-    public void setQrCode(String qrCode) { this.qrCode = qrCode; }
-
-    public BinStatus getStatus() { return status; }
-    public void setStatus(BinStatus status) { this.status = status; }
-
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public enum CollectionStatus {
+        PENDING,
+        COLLECTED,
+        MISSED,
+        OVERFLOW
+    }
 }
-
