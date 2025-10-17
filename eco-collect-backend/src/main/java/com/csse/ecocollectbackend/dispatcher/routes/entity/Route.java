@@ -62,6 +62,9 @@ public class Route {
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<RouteWard> routeWards;
     
+    @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<RouteStop> routeStops;
+    
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();

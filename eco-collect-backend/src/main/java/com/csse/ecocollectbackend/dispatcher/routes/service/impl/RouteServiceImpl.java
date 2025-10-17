@@ -5,6 +5,7 @@ import com.csse.ecocollectbackend.dispatcher.routes.dto.RouteResponse;
 import com.csse.ecocollectbackend.dispatcher.routes.entity.Route;
 import com.csse.ecocollectbackend.dispatcher.routes.repository.RouteRepository;
 import com.csse.ecocollectbackend.dispatcher.routes.service.RouteService;
+import com.csse.ecocollectbackend.dispatcher.routes.service.RouteStopService;
 import com.csse.ecocollectbackend.dispatcher.trucks.entity.Truck;
 import com.csse.ecocollectbackend.dispatcher.zones.entity.Zone;
 import com.csse.ecocollectbackend.dispatcher.zones.repository.ZoneRepository;
@@ -29,6 +30,7 @@ public class RouteServiceImpl implements RouteService {
     private final ZoneRepository zoneRepository;
     private final TruckRepository truckRepository;
     private final UserRepository userRepository;
+    private final RouteStopService routeStopService;
     
     @Override
     public RouteResponse createRoute(CreateRouteRequest request) {
@@ -135,6 +137,10 @@ public class RouteServiceImpl implements RouteService {
         
         route.setCollector(collector);
         Route updatedRoute = routeRepository.save(route);
+        
+        // Update all route stops for this route with the assigned collector
+        routeStopService.updateRouteStopsDriverForRoute(routeId, collectorId);
+        
         return RouteResponse.fromEntity(updatedRoute);
     }
     
