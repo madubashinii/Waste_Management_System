@@ -36,3 +36,31 @@ export const reportIssue = async (data) => {
 export const getRouteSummary = async () => {
     return { totalRoutes: 2, binsCollected: 1, missed: 1, overflow: 0 };
 };
+
+//
+// import API_BASE_URL from "../api"
+// import axios from 'axios';
+//
+// export const getTodaysRoutes = async (collectorId) => {
+//     try {
+//         const response = await axios.get(`${API_BASE_URL}/collector/routes`, {
+//             params: { collectorId },
+//         });
+//         return response.data;
+//     } catch (error) {
+//         console.error("Error fetching routes:", error);
+//         throw error;
+//     }
+// };
+//
+// export const markBinCollected = async (stopId, collectedWeight) => {
+//     try {
+//         const response = await axios.post(`${API_BASE_URL}/collector/route-stops/${stopId}/collect`, {
+//             collectedWeight,
+//         });
+//         return response.data;
+//     } catch (error) {
+//         console.error("Error marking bin collected:", error);
+//         throw error;
+//     }
+// };

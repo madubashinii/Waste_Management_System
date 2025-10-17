@@ -29,6 +29,9 @@ const SignIn = () => {
 
       alert(`Welcome, ${response.data.name}!`);
 
+      // Save user info in localStorage
+      localStorage.setItem("user", JSON.stringify(response.data));
+
       // Navigate based on role
       if (response.data.role === 'Collector') {
         navigate('/collector/dashboard');
@@ -42,76 +45,76 @@ const SignIn = () => {
   };
 
   return (
-    <AuthLayout
-      title="Sign in to your account"
-      subtitle="Welcome back to EcoCollect"
-    >
-      <form className="space-y-6" onSubmit={handleSubmit}>
-        <Input
-          label="Email address"
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="john.doe@example.com"
-        />
+      <AuthLayout
+          title="Sign in to your account"
+          subtitle="Welcome back to EcoCollect"
+      >
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          <Input
+              label="Email address"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="john.doe@example.com"
+          />
 
-        <Input
-          label="Password"
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          placeholder="••••••••"
-        />
+          <Input
+              label="Password"
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="••••••••"
+          />
 
-        <UserTypeSelector
-          selectedType={formData.userType}
-          onTypeChange={(type) => setFormData(prev => ({ ...prev, userType: type }))}
-        />
+          <UserTypeSelector
+              selectedType={formData.userType}
+              onTypeChange={(type) => setFormData(prev => ({ ...prev, userType: type }))}
+          />
 
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <input
-              id="remember-me"
-              name="remember-me"
-              type="checkbox"
-              className="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded"
-            />
-            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-              Remember me
-            </label>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <input
+                  id="remember-me"
+                  name="remember-me"
+                  type="checkbox"
+                  className="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded"
+              />
+              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                Remember me
+              </label>
+            </div>
+
+            <div className="text-sm">
+              <a href="#" className="font-medium text-emerald-600 hover:text-emerald-500">
+                Forgot your password?
+              </a>
+            </div>
           </div>
 
-          <div className="text-sm">
-            <a href="#" className="font-medium text-emerald-600 hover:text-emerald-500">
-              Forgot your password?
-            </a>
-          </div>
-        </div>
+          <Button type="submit" className="w-full">
+            Sign in
+          </Button>
 
-        <Button type="submit" className="w-full">
-          Sign in
-        </Button>
-
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300" />
-          </div>
-          <div className="relative flex justify-center text-sm">
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300" />
+            </div>
+            <div className="relative flex justify-center text-sm">
             <span className="px-2 bg-white text-gray-500">
               Don't have an account?
             </span>
+            </div>
           </div>
-        </div>
 
-        <Link to="/signup">
-          <Button variant="outline" className="w-full">
-            Sign up
-          </Button>
-        </Link>
-      </form>
-    </AuthLayout>
+          <Link to="/signup">
+            <Button variant="outline" className="w-full">
+              Sign up
+            </Button>
+          </Link>
+        </form>
+      </AuthLayout>
   );
 };
 
